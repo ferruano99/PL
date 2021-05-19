@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<HTML>
+<head>
+<title>EjNotable.pl</title>
+<style>
+.cte {color:rgb(19,189,72);}
+.ident {color:rgb(55,40,244);}
+.palres {color:rgb(0,0,0);font-weight:bold;}
+</style>
+</head>
+
+<BODY>
+<A NAME="inicio">
+<H1>Programa: EjNotable.pl</H1>
+<H2>Funciones y procedimientos</H2>
+<UL>
+<LI><A HREF="#areaCuadrado">real areaCuadrado ( real lado )</A></LI>
+<LI><A HREF="#intercambioEntero">intercambioEntero ( entero v1, entero v2)</A></LI>
+<LI><A HREF="#factorialRec">funcion entero factorialRec ( entero valorRec )</A></LI>
+<LI><A HREF="#factorialIt">funcion entero factorialIt ( entero valorIt )</A></LI>
+</UL>
+
+<HR/>
+<A NAME="areaCuadrado">
+<SPAN CLASS="palres">funcion</SPAN> <SPAN CLASS="palres">real</SPAN> <SPAN CLASS="ident">areaCuadrado</SPAN> ( <SPAN CLASS="palres">real</SPAN> <SPAN CLASS="ident">lado</SPAN> ) <BR/>
+<SPAN CLASS="palres">inicio</SPAN><BR/>
+	<A NAME="resultado"><DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">real</SPAN> <SPAN CLASS="ident">resultado</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#resultado">resultado</A> = <SPAN CLASS="cte">0.0</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#resultado">resultado</A> = <A HREF="#areaCuadrado">lado</A> * <A HREF="#areaCuadrado">lado</A>;</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">return</SPAN> <A HREF="#resultado">resultado</A>;</DIV>
+<SPAN CLASS="palres">fin</SPAN><BR/>
+<A HREF="#areaCuadrado">Inicio de rutina</A><BR/>
+<A HREF="#inicio">Inicio de programa</A><BR/>
+<HR/>
+<A NAME="intercambioEntero">
+<SPAN CLASS="palres">procedimiento</SPAN> <SPAN CLASS="ident">intercambioEntero</SPAN> ( <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">v1</SPAN>, <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">v2</SPAN>)<BR/>
+<SPAN CLASS="palres">inicio</SPAN><BR/>
+	<A NAME="aux"><DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">aux;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#aux">aux</A> = <SPAN CLASS="cte">0</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#aux">aux</A> = <A HREF="#intercambioEntero">v1</A>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#intercambioEntero">v1</A> = <A HREF="#intercambioEntero">v2</A>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#intercambioEntero">v2</A> = <A HREF="#aux">aux</A>;</DIV>
+<SPAN CLASS="palres">fin</SPAN><BR/>
+<A HREF="#intercambioEntero">Inicio de rutina</A><BR/>
+<A HREF="#inicio">Inicio de programa</A><BR/>
+
+<HR/>
+<A NAME="factorialRec">
+<SPAN CLASS="palres">funcion</SPAN> <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">factorialRec</SPAN> ( <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">valorRec</SPAN> )
+<SPAN CLASS="palres">inicio</SPAN>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">bifurcacion</SPAN> ( <A HREF="#factorialRec">valorRec</A> == <SPAN CLASS="cte">1</SPAN> )</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">entonces</SPAN></DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">inicio</SPAN></DIV>
+		<DIV style="text-indent: 1cm"><SPAN CLASS="palres">return</SPAN> <SPAN CLASS="cte">1</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">fin</SPAN><BR/>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">sino</SPAN></DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">inicio</SPAN></DIV>
+		<A NAME="auxRec"><DIV style="text-indent: 1cm"><SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">auxRec</SPAN>;</DIV>
+		<DIV style="text-indent: 1cm"><A HREF="#auxRec">auxRec</A> = <A HREF="#factorialRec">valorRec</A> - <SPAN CLASS="cte">1</SPAN>;</DIV>
+		<DIV style="text-indent: 1cm"><SPAN CLASS="palres">return</SPAN> <A HREF="#factorialRec">valorRec</A> * <A HREF="#factorialRec">factorialRec</A> ( <A HREF="#auxRec">auxRec</A> );</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">fin</SPAN><BR/>
+<SPAN CLASS="palres">fin</SPAN><BR/>
+<A HREF="#factorialRec">Inicio de rutina</A><BR/>
+<A HREF="#inicio">Inicio de programa</A><BR/>
+
+<HR/>
+<A NAME="factorialIt">
+funcion</SPAN> <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">factorialIt</SPAN> ( <SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">valorIt</SPAN> )
+<SPAN CLASS="palres">inicio</SPAN>
+	<A NAME="contador"><A NAME="acumulador"><DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">entero</SPAN> <SPAN CLASS="ident">contador</SPAN>, <SPAN CLASS="ident">acumulador</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><A HREF="#acumulador">acumulador</A> = <SPAN CLASS="cte">1</SPAN>;</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">buclepara</SPAN> ( <A HREF="#contador">contador</A>=<SPAN CLASS="cte">0</SPAN> ; <A HREF="#contador">contador</A> == <A HREF="#factorialIt">valorIt</A> ; <A HREF="#contador">contador</A> = <A HREF="#contador">contador</A> + <SPAN CLASS="cte">1</SPAN> )</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">inicio</SPAN></DIV>
+		<DIV style="text-indent: 1cm"><A HREF="#acumulador">acumulador</A> = <A HREF="#acumulador">acumulador</A> * <A HREF="#contador">contador</A>;</DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">fin</SPAN></DIV>
+	<DIV style="text-indent: 0.5cm"><SPAN CLASS="palres">return</SPAN> <A HREF="#acumulador">acumulador</A>;</DIV>
+<SPAN CLASS="palres">fin</SPAN><BR/>
+<A HREF="#factorialIt">Inicio de rutina</A><BR/>
+<A HREF="#inicio">Inicio de programa</A><BR/>
+
+</BODY>
+</HTML>

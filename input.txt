@@ -1,0 +1,11 @@
+funcion real areaCuadrado ( real lado )
+inicio
+	real resultado;
+	resultado = 0.0;
+fin
+
+procedimiento intercambioEntero ( entero v1, entero v2)
+inicio
+	entero aux;
+	aux = 0;
+fin
