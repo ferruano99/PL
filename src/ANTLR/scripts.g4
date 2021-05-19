@@ -16,7 +16,7 @@ package ANTLR;
 
 program returns [String v]: part program2 {$v = $part.v + $program2.v;};
 program2 returns [String v]: part program2 {$v = $part.v + $program2.v;}//USAR HEREDADOS??
-    | {$v = "juan";}
+    | {$v = "juan pepe";}
     ;
 
 part returns [String v]: 'funcion' type restpart {$v = "funcion " + $type.v + $restpart.v;myinfo.newDec($v);} | 'procedimiento' restpart {$v = "procedimiento" + $restpart.v;myinfo.newDec($v);};
