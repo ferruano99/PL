@@ -19,7 +19,7 @@ program2 returns [String v]: part program2 {$v = $part.v + $program2.v;}//USAR H
     | {$v = "juan pepe";}
     ;
 
-part returns [String v]: 'funcion' type restpart {$v = "funcion " + $type.v + $restpart.v;myinfo.newDec($v);} | 'procedimiento' restpart {$v = "procedimiento" + $restpart.v;myinfo.newDec($v);};
+part returns [String v]: 'funcion' type restpart {$v = "funcion " + $type.v + " " + $restpart.v;myinfo.newDec($v);} | 'procedimiento' restpart {$v = "procedimiento" + $restpart.v;myinfo.newDec($v);};
 
 //generar una dupla? para coger cabecera o el resto de cosas
 restpart returns [String v]: IDENTIFICADOR '(' restpart2 {$v = $IDENTIFICADOR.text + "(" + $restpart2.v;};
@@ -37,19 +37,49 @@ type returns [String v]: 'entero' {$v = "entero";}| 'real' {$v = "real";}|'carac
 blq returns [String v]: 'inicio' sentlist 'fin' {$v = "inicio" + $sentlist.v + "fin";};
 
 sentlist returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;};
-sentlist2 returns [String v]: sent {$v = $sent.v;} //USAR HEREDADOS????
+sentlist2 returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;} //USAR HEREDADOS????
     | {$v = "";}
     ;
 
 sent returns [String v]: type lid ';' {$v = $type.v + $lid.v + ";";}
     | IDENTIFICADOR sent2 {$v = $IDENTIFICADOR.text + $sent2.v;}
     | 'return' exp ';' {$v = "return" + $exp.v + ";";}
+    | 'bifurcacion' '(' lcond ')' 'entonces' blq 'sino' blq
+    | 'buclepara' '(' IDENTIFICADOR asig exp ';' lcond ';' IDENTIFICADOR asig exp ')' blq
+    | 'buclemientras' '(' lcond ')' blq
+    | 'bucle' blq 'hasta' '(' lcond ')'
+    | blq
     ;
 sent2 returns [String v]: '(' sent3 {$v = "(" + $sent3.v;}
     | asig exp ';' {$v = $asig.v + $exp.v;}
     ;
 sent3 returns [String v]: lid ')' ';' {$v = $lid.v + ")" + ";";}
     | ')' ';' {$v = ")" + ";";}
+    ;
+
+lcond returns [String v]: opl lcond lcond2
+    | cond lcond2
+    | 'no' cond lcond2
+    ;
+lcond2 returns [String v]: opl lcond
+    | {$v = ""}
+    ;
+
+cond returns [String v]: exp opr exp
+    | 'cierto' {$v = "cierto";}
+    | 'falso' {$v = "falso";}
+    ;
+
+opl returns [String v]: 'y' {$v = "y";}
+    | 'o' {$v = "o";}
+    ;
+
+opr returns [String v]: '==' {$v = "==";}
+    | '<>' {$v = "<>";}
+    | '<' {$v = "<";}
+    | '>' {$v = ">";}
+    | '>=' {$v = ">=";}
+    | '<=' {$v = "<=";}
     ;
 
 lid returns [String v]: IDENTIFICADOR lid2 {$v = $IDENTIFICADOR.text + $lid2.v;};
@@ -80,9 +110,7 @@ funcion2 returns [String v]: '(' lid ')' {$v = "(" + $lid.v + ")\n";} // Usar at
 op returns [String v]: '+' {$v = "+";}| '-' {$v = "-";}| '*' {$v = "*";}| '/' {$v = "/";};
 
 
-
-
-// RESERVADAS: ('funcion'|'procedimiento'|'entero'|'real'|'caracter'|'inicio'|'fin');
+// Parte léxico
 
 IDENTIFICADOR : ('_'|[a-z])([a-zA-Z]|[0-9]|'_')*;
 
