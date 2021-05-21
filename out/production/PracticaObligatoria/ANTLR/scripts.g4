@@ -11,40 +11,79 @@ package ANTLR;
         this(input);
         myinfo = theinfo;
     }
+
 }
 
 
 program returns [String v]: part program2 {$v = $part.v + $program2.v;};
 program2 returns [String v]: part program2 {$v = $part.v + $program2.v;}//USAR HEREDADOS??
-    | {$v = "";}
+    | {$v = "juan pepe";}
     ;
 
-part returns [String v]: 'funcion' type restpart {$v = "funcion " + $type.v + $restpart.v;myinfo.newDec($v);} | 'procedimiento' restpart {$v = "procedimiento" + $restpart.v;myinfo.newDec($v);};
+part returns [String v]: 'funcion' type restpart {$v = myinfo.palres("funcion ") + $type.v + $restpart.v + "<BR/>";myinfo.newDec($v);} | 'procedimiento' restpart {$v = myinfo.palres("procedimiento ") + $restpart.v + "</BR>";myinfo.newDec($v);};
 
 //generar una dupla? para coger cabecera o el resto de cosas
-restpart returns [String v]: IDENTIFICADOR '(' restpart2 {$v = $IDENTIFICADOR.text + "(" + $restpart2.v;};
+restpart returns [String v]: IDENTIFICADOR '(' restpart2 {$v = myinfo.identificadores($IDENTIFICADOR.text) + "(" + $restpart2.v;};
 restpart2 returns [String v]: listparam ')' blq {$v = $listparam.v + ")" + $blq.v;}
     | ')' blq {$v = ")" + $blq.v;}
     ;
 
-listparam returns [String v]: type IDENTIFICADOR listparam2 {$v = $type.v + $IDENTIFICADOR.text + $listparam2.v;};
-listparam2 returns [String v]: ',' type IDENTIFICADOR {$v = "," + $type.v + $IDENTIFICADOR.text;} //USAR HEREDADOS??
+listparam returns [String v]: type IDENTIFICADOR listparam2 {$v = $type.v + myinfo.identificadores($IDENTIFICADOR.text) + $listparam2.v;};
+listparam2 returns [String v]: ',' type IDENTIFICADOR {$v = "," + $type.v + myinfo.identificadores($IDENTIFICADOR.text);} //USAR HEREDADOS??
     | {$v = "";}
     ;
 
-type returns [String v]: 'entero' {$v = "entero";}| 'real' {$v = "real";}|'caracter' {$v = "caracter";};
+type returns [String v]: 'entero' {$v = myinfo.palres("entero ");}| 'real' {$v = myinfo.palres("real ");}|'caracter' {$v = myinfo.palres("caracter ");};
 
-blq returns [String v]: 'inicio' sentlist 'fin' {$v = "inicio" + $sentlist.v + "fin";};
+blq returns [String v]: 'inicio' sentlist 'fin' {$v = myinfo.palres("inicio ") + $sentlist.v + myinfo.palres("fin ");};
 
 sentlist returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;};
-sentlist2 returns [String v]: sent {$v = $sent.v;} //USAR HEREDADOS????
+sentlist2 returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;} //USAR HEREDADOS????
     | {$v = "";}
     ;
 
-sent returns [String v]: type lid ';' {$v = $type.v + $lid.v + ";";}
-    | IDENTIFICADOR sent2 {$v = $IDENTIFICADOR.text + $sent2.v;}
-    | 'return' exp ';' {$v = "return" + $exp.v + ";";}
+sent returns [String v]: type lid ';'
+        {$v = myinfo.addSentencia($type.v + $lid.v + ";");}
+    | IDENTIFICADOR sent2
+        {
+            String id = myinfo.identificadores($IDENTIFICADOR.text);
+            $v =  myinfo.addSentencia(id + $sent2.v);
+        }
+    | 'return' exp ';'
+        {
+            String r = myinfo.palres("return ");
+            $v = myinfo.addSentencia(r + $exp.v + ";");
+        }
+    | 'bifurcacion' '(' lcond ')' 'entonces' blq 'sino' blq
+        {
+        String bif = myinfo.palres("bifurcacion ");
+        String entonces = myinfo.palres("entonces ");
+        String sino = myinfo.palres("sino ");
+        $v = myinfo.addSentencia(bif + "(" + $lcond.v + ")" + entonces + $blq.v + sino + $blq.v);
+        }
+    | 'buclepara' '(' IDENTIFICADOR asig exp ';' lcond ';' sentfor
+        {
+        String buclepara = myinfo.palres("buclepara ");
+        String id = myinfo.identificadores($IDENTIFICADOR.text);
+        $v = myinfo.addSentencia(buclepara + "(" + id + $asig.v + $exp.v + ";" + $lcond.v + ";" + $sentfor.v);
+        }
+    | 'buclemientras' '(' lcond ')' blq
+        {
+            String buclemientras = myinfo.palres("buclemientras ");
+            $v = myinfo.addSentencia(buclemientras + "(" + $lcond.v + ")" + $blq.v);
+        }
+    | 'bucle' blq 'hasta' '(' lcond ')'
+        {
+            String bucle = myinfo.palres("bucle ");
+            String hasta = myinfo.palres("hasta ");
+            $v = myinfo.addSentencia(bucle + $blq.v + hasta + "(" + $lcond.v + ")");
+        }
+    | blq {$v = myinfo.addSentencia($blq.v);}
     ;
+sentfor returns [String v] : IDENTIFICADOR asig exp ')' blq
+    {
+    $v = $IDENTIFICADOR.text + $asig.v + $exp.v + ")" + $blq.v;
+    };
 sent2 returns [String v]: '(' sent3 {$v = "(" + $sent3.v;}
     | asig exp ';' {$v = $asig.v + $exp.v;}
     ;
@@ -52,7 +91,32 @@ sent3 returns [String v]: lid ')' ';' {$v = $lid.v + ")" + ";";}
     | ')' ';' {$v = ")" + ";";}
     ;
 
-lid returns [String v]: IDENTIFICADOR lid2 {$v = $IDENTIFICADOR.text + $lid2.v;};
+lcond returns [String v]: opl lcond lcond2 {$v = $opl.v + $lcond.v + $lcond2.v;}
+    | cond lcond2 {$v = $cond.v + $lcond2.v;}
+    | 'no' cond lcond2 {$v = myinfo.palres("no ") + $cond.v + $lcond2.v;}
+    ;
+lcond2 returns [String v]: opl lcond {$v = $opl.v + $lcond.v;}
+    | {$v = "";}
+    ;
+
+cond returns [String v]: exp opr exp {$v = $exp.v + $opr.v + $exp.v;}
+    | 'cierto' {$v = myinfo.palres("cierto ");}
+    | 'falso' {$v = myinfo.palres("falso ");}
+    ;
+
+opl returns [String v]: 'y' {$v = myinfo.palres("y ");}
+    | 'o' {$v = myinfo.palres("o ");}
+    ;
+
+opr returns [String v]: '==' {$v = "==";}
+    | '<>' {$v = "<>";}
+    | '<' {$v = "<";}
+    | '>' {$v = ">";}
+    | '>=' {$v = ">=";}
+    | '<=' {$v = "<=";}
+    ;
+
+lid returns [String v]: IDENTIFICADOR lid2 {$v = myinfo.identificadores($IDENTIFICADOR.text) + $lid2.v;};
 lid2 returns [String v]: ',' lid {$v = "," + $lid.v;} //USAR HERENCIA?????
     | {$v = "";}
     ;
@@ -65,7 +129,7 @@ exp2 returns [String v]: op funcion exp2 {$v = $op.v + $funcion.v + $exp2.v;}//U
     | {$v = "";}
     ;
 
-funcion returns [String v]: IDENTIFICADOR funcion2 {$v = $IDENTIFICADOR.text + $funcion2.v;}
+funcion returns [String v]: IDENTIFICADOR funcion2 {$v = myinfo.identificadores($IDENTIFICADOR.text) + $funcion2.v;}
     | '(' exp ')' {$v = "(" + $exp.v + ")";}
     | CONSTENTERO {$v = $CONSTENTERO.text;}
     | CONSTREAL {$v = $CONSTREAL.text;}
@@ -80,9 +144,7 @@ funcion2 returns [String v]: '(' lid ')' {$v = "(" + $lid.v + ")\n";} // Usar at
 op returns [String v]: '+' {$v = "+";}| '-' {$v = "-";}| '*' {$v = "*";}| '/' {$v = "/";};
 
 
-
-
-// RESERVADAS: ('funcion'|'procedimiento'|'entero'|'real'|'caracter'|'inicio'|'fin');
+// Parte léxico
 
 IDENTIFICADOR : ('_'|[a-z])([a-zA-Z]|[0-9]|'_')*;
 

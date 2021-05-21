@@ -26,30 +26,12 @@ public class main {
             //Creamos el objeto correspondiente
             Sintesis datos = new Sintesis();
             scriptsParser anasint = new scriptsParser(tokens,datos);
-            System.out.println(
-                    "<!DOCTYPE html>\n" +
-                    "<HTML>\n" +
-                    "   <head>\n" +
-                    "       <title>"+args[0]+"</title>\n" +
-                    "       <style>\n" +
-                    "           .cte {color:rgb(19,189,72);}\n" +
-                    "           .ident {color:rgb(55,40,244);}\n" +
-                    "           .palres {color:rgb(0,0,0);font-weight:bold;}\n" +
-                    "       </style>\n" +
-                    "   </head>\n" +
-                    "   <body>\n" +
-                    "       <a name=\"inicio\">\n" +
-                    "       <h1>Programa: " + args[0] + "</h1>\n" +
-                    "       <h2>Funciones y procedimientos</h2>\n" +
-                    "       <UL>\n");
 
             anasint.program();
             // Lo de funciones y procedimientos
-            datos.resumen(); // el código tocho
+            datos.imprimirCabecera();
+            datos.resumen(args[0]); // el código tocho
 
-            System.out.println(
-                    "   </body>\n"+
-                    "</html>");
 
         } catch (org.antlr.v4.runtime.RecognitionException e) {
             //entrada

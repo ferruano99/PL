@@ -131,6 +131,16 @@ public interface scriptsListener extends ParseTreeListener {
 	 */
 	void exitSent(scriptsParser.SentContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link scriptsParser#sentfor}.
+	 * @param ctx the parse tree
+	 */
+	void enterSentfor(scriptsParser.SentforContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#sentfor}.
+	 * @param ctx the parse tree
+	 */
+	void exitSentfor(scriptsParser.SentforContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link scriptsParser#sent2}.
 	 * @param ctx the parse tree
 	 */
@@ -150,6 +160,56 @@ public interface scriptsListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSent3(scriptsParser.Sent3Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link scriptsParser#lcond}.
+	 * @param ctx the parse tree
+	 */
+	void enterLcond(scriptsParser.LcondContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#lcond}.
+	 * @param ctx the parse tree
+	 */
+	void exitLcond(scriptsParser.LcondContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link scriptsParser#lcond2}.
+	 * @param ctx the parse tree
+	 */
+	void enterLcond2(scriptsParser.Lcond2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#lcond2}.
+	 * @param ctx the parse tree
+	 */
+	void exitLcond2(scriptsParser.Lcond2Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link scriptsParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void enterCond(scriptsParser.CondContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#cond}.
+	 * @param ctx the parse tree
+	 */
+	void exitCond(scriptsParser.CondContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link scriptsParser#opl}.
+	 * @param ctx the parse tree
+	 */
+	void enterOpl(scriptsParser.OplContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#opl}.
+	 * @param ctx the parse tree
+	 */
+	void exitOpl(scriptsParser.OplContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link scriptsParser#opr}.
+	 * @param ctx the parse tree
+	 */
+	void enterOpr(scriptsParser.OprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link scriptsParser#opr}.
+	 * @param ctx the parse tree
+	 */
+	void exitOpr(scriptsParser.OprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link scriptsParser#lid}.
 	 * @param ctx the parse tree
