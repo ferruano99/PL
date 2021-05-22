@@ -276,8 +276,11 @@ public class scriptsParser extends Parser {
 				setState(68);
 				((PartContext)_localctx).type = type();
 				setState(69);
-				((PartContext)_localctx).restpart = restpart();
-				((PartContext)_localctx).v =  myinfo.palres("funcion ") + ((PartContext)_localctx).type.v + ((PartContext)_localctx).restpart.v + "<BR/>";myinfo.newDec(_localctx.v);
+				((PartContext)_localctx).restpart = restpart("funcion ");
+				((PartContext)_localctx).v =  myinfo.palres("funcion ") + ((PartContext)_localctx).type.v + ((PartContext)_localctx).restpart.v + "<BR/>";
+				    myinfo.newDec(_localctx.v);
+
+				    
 				}
 				break;
 			case T__1:
@@ -286,7 +289,7 @@ public class scriptsParser extends Parser {
 				setState(72);
 				match(T__1);
 				setState(73);
-				((PartContext)_localctx).restpart = restpart();
+				((PartContext)_localctx).restpart = restpart("procedimiento ");
 				((PartContext)_localctx).v =  myinfo.palres("procedimiento ") + ((PartContext)_localctx).restpart.v + "</BR>";myinfo.newDec(_localctx.v);
 				}
 				break;
@@ -306,6 +309,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class RestpartContext extends ParserRuleContext {
+		public String i;
 		public String v;
 		public Token IDENTIFICADOR;
 		public Restpart2Context restpart2;
@@ -313,8 +317,10 @@ public class scriptsParser extends Parser {
 		public Restpart2Context restpart2() {
 			return getRuleContext(Restpart2Context.class,0);
 		}
-		public RestpartContext(ParserRuleContext parent, int invokingState) {
+		public RestpartContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public RestpartContext(ParserRuleContext parent, int invokingState, String i) {
 			super(parent, invokingState);
+			this.i = i;
 		}
 		@Override public int getRuleIndex() { return RULE_restpart; }
 		@Override
@@ -327,8 +333,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final RestpartContext restpart() throws RecognitionException {
-		RestpartContext _localctx = new RestpartContext(_ctx, getState());
+	public final RestpartContext restpart(String i) throws RecognitionException {
+		RestpartContext _localctx = new RestpartContext(_ctx, getState(), i);
 		enterRule(_localctx, 6, RULE_restpart);
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -338,7 +344,7 @@ public class scriptsParser extends Parser {
 			setState(79);
 			match(T__2);
 			setState(80);
-			((RestpartContext)_localctx).restpart2 = restpart2();
+			((RestpartContext)_localctx).restpart2 = restpart2(_localctx.i + (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null) + " ( ", (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null));
 			((RestpartContext)_localctx).v =  myinfo.identificadores((((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null)) + "(" + ((RestpartContext)_localctx).restpart2.v;
 			}
 		}
@@ -354,6 +360,8 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class Restpart2Context extends ParserRuleContext {
+		public String frase;
+		public String nombreCab;
 		public String v;
 		public ListparamContext listparam;
 		public BlqContext blq;
@@ -363,8 +371,11 @@ public class scriptsParser extends Parser {
 		public BlqContext blq() {
 			return getRuleContext(BlqContext.class,0);
 		}
-		public Restpart2Context(ParserRuleContext parent, int invokingState) {
+		public Restpart2Context(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public Restpart2Context(ParserRuleContext parent, int invokingState, String frase, String nombreCab) {
 			super(parent, invokingState);
+			this.frase = frase;
+			this.nombreCab = nombreCab;
 		}
 		@Override public int getRuleIndex() { return RULE_restpart2; }
 		@Override
@@ -377,8 +388,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final Restpart2Context restpart2() throws RecognitionException {
-		Restpart2Context _localctx = new Restpart2Context(_ctx, getState());
+	public final Restpart2Context restpart2(String frase,String nombreCab) throws RecognitionException {
+		Restpart2Context _localctx = new Restpart2Context(_ctx, getState(), frase, nombreCab);
 		enterRule(_localctx, 8, RULE_restpart2);
 		try {
 			setState(92);
@@ -395,7 +406,11 @@ public class scriptsParser extends Parser {
 				match(T__3);
 				setState(85);
 				((Restpart2Context)_localctx).blq = blq();
-				((Restpart2Context)_localctx).v =  ((Restpart2Context)_localctx).listparam.v + ")" + ((Restpart2Context)_localctx).blq.v;
+
+				    String cab = ((Restpart2Context)_localctx).listparam.v + " ) ";
+				    myinfo.addCabecera(_localctx.frase + ((Restpart2Context)_localctx).listparam.v + " ) ",_localctx.nombreCab);
+				    ((Restpart2Context)_localctx).v =  ((Restpart2Context)_localctx).listparam.v + ")" + ((Restpart2Context)_localctx).blq.v;
+				    
 				}
 				break;
 			case T__3:
@@ -405,7 +420,10 @@ public class scriptsParser extends Parser {
 				match(T__3);
 				setState(89);
 				((Restpart2Context)_localctx).blq = blq();
-				((Restpart2Context)_localctx).v =  ")" + ((Restpart2Context)_localctx).blq.v;
+
+				    myinfo.addCabecera(_localctx.frase + ")",_localctx.nombreCab);
+				    ((Restpart2Context)_localctx).v =  ")" + ((Restpart2Context)_localctx).blq.v;
+				    
 				}
 				break;
 			default:
@@ -631,7 +649,7 @@ public class scriptsParser extends Parser {
 			((BlqContext)_localctx).sentlist = sentlist();
 			setState(117);
 			match(T__9);
-			((BlqContext)_localctx).v =  myinfo.palres("inicio ") + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ");
+			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ") + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ");
 			}
 		}
 		catch (RecognitionException re) {
@@ -1940,7 +1958,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(312);
 				((FuncionContext)_localctx).CONSTENTERO = match(CONSTENTERO);
-				((FuncionContext)_localctx).v =  (((FuncionContext)_localctx).CONSTENTERO!=null?((FuncionContext)_localctx).CONSTENTERO.getText():null);
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTENTERO!=null?((FuncionContext)_localctx).CONSTENTERO.getText():null));
 				}
 				break;
 			case CONSTREAL:
@@ -1948,7 +1966,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(314);
 				((FuncionContext)_localctx).CONSTREAL = match(CONSTREAL);
-				((FuncionContext)_localctx).v =  (((FuncionContext)_localctx).CONSTREAL!=null?((FuncionContext)_localctx).CONSTREAL.getText():null);
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTREAL!=null?((FuncionContext)_localctx).CONSTREAL.getText():null));
 				}
 				break;
 			case CONSTLIT:
@@ -1956,7 +1974,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(316);
 				((FuncionContext)_localctx).CONSTLIT = match(CONSTLIT);
-				((FuncionContext)_localctx).v =  (((FuncionContext)_localctx).CONSTLIT!=null?((FuncionContext)_localctx).CONSTLIT.getText():null);
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTLIT!=null?((FuncionContext)_localctx).CONSTLIT.getText():null));
 				}
 				break;
 			default:

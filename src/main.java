@@ -29,8 +29,8 @@ public class main {
 
             anasint.program();
             // Lo de funciones y procedimientos
-            datos.imprimirCabecera();
-            datos.resumen(args[0]); // el código tocho
+            datos.imprimirCabecera(args[0]);
+            datos.resumen(); // el código tocho
 
 
         } catch (org.antlr.v4.runtime.RecognitionException e) {

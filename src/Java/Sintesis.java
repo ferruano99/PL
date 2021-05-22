@@ -11,7 +11,7 @@ public class Sintesis { //La clase principal para guardar todo
     private Reservadas reservadas = new Reservadas();
 
     private List<Sentencia> sentencias = new ArrayList<>();
-    private List<String> cabeceras = new ArrayList<>();
+    private List<Cabecera> cabeceras = new ArrayList<>();
 
     public Sintesis() {
         this.declaraciones = new ArrayList<>();
@@ -23,17 +23,32 @@ public class Sintesis { //La clase principal para guardar todo
         return sent.imprimirSentencia(sent.getSent());
     }
 
-    public void imprimirCabecera(){
-        System.out.println("<UL>\n");
-        for (String cab : cabeceras) {
-            System.out.println(cab);
+    public void imprimirCabecera(String titulo){
+        System.out.println( //Meter en resumen este cacho
+                "<!DOCTYPE html>\n" +
+                        "<HTML>\n" +
+                        "   <head>\n" +
+                        "       <title>" + titulo + "</title>\n" +
+                        "       <style>\n" +
+                        "           .cte {color:rgb(19,189,72);}\n" +
+                        "           .ident {color:rgb(55,40,244);}\n" +
+                        "           .palres {color:rgb(0,0,0);font-weight:bold;}\n" +
+                        "       </style>\n" +
+                        "   </head>\n" +
+                        "   <body>\n" +
+                        "       <a name=\"inicio\">\n" +
+                        "       <h1>Programa: " + titulo + "</h1>\n" +
+                        "       <h2>Funciones y procedimientos</h2>\n" +
+                        "       <UL>");
+        for (Cabecera cab : cabeceras) {
+            System.out.println("            "+cab.getSentencia());
         }
-        System.out.println("</UL>\n");
+        System.out.println("       </UL>\n");
     }
     public void addCabecera(String cabecera, String nombreFuncion) {
         Cabecera cab = new Cabecera(cabecera, nombreFuncion);
-        String format = cab.formatCabecera(cab);
-        cabeceras.add(format);
+        cab = cab.formatCabecera(cab);
+        cabeceras.add(cab);
     }
 
     public String constante(String entrada) {
@@ -55,11 +70,12 @@ public class Sintesis { //La clase principal para guardar todo
 
 
     public void resumen() { //habría que generar el código HTML
+
+        System.out.println(declaraciones.size());
         if (declaraciones.size() != 0) {
             for (String declaracion : declaraciones) {
+                System.out.println("<HR/>");
                 System.out.println(declaracion);
-                System.out.println();
-
             }
         } else {
             System.out.println("nada");

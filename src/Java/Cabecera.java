@@ -3,9 +3,20 @@ package Java;
 public class Cabecera {
     private String cab;
     private String nombreFuncion;
+    private String sentencia;
+
     public Cabecera(String cab, String nombreFuncion){
         this.cab = cab;
         this.nombreFuncion = nombreFuncion;
+        this.sentencia = "";
+    }
+
+    public String getSentencia() {
+        return sentencia;
+    }
+
+    public void setSentencia(String sentencia) {
+        this.sentencia = sentencia;
     }
 
     public String getNombreFuncion() {
@@ -24,8 +35,9 @@ public class Cabecera {
         this.cab = cab;
     }
 
-    public String formatCabecera(Cabecera cab){
-        return "<LI><A HREF=\"#" + nombreFuncion + "\">" + cab.nombreFuncion +"</A></LI>";
+    public Cabecera formatCabecera(Cabecera cab){
+        this.sentencia = "<LI><A HREF=\"#" + nombreFuncion + "\">" + cab.cab +"</A></LI>";
+        return cab;
     }
 }
 

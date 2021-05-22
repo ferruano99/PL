@@ -2,12 +2,22 @@ package Java;
 
 public class Sentencia extends Reservadas{
     private String sent;
+    private String nombreFuncion;
 
     public String getSent() {
         return sent;
     }
 
+    public String getNombreFuncion() {
+        return nombreFuncion;
+    }
+
+    public void setNombreFuncion(String nombreFuncion) {
+        this.nombreFuncion = nombreFuncion;
+    }
+
     public Sentencia(String sent){
+        this.nombreFuncion = "";
         this.sent = sent;
     }
 

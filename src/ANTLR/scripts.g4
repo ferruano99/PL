@@ -11,6 +11,7 @@ package ANTLR;
         this(input);
         myinfo = theinfo;
     }
+
 }
 
 
@@ -19,20 +20,25 @@ program2 returns [String v]: part program2 {$v = $part.v + $program2.v;}//USAR H
     | {$v = "juan pepe";}
     ;
 
-part returns [String v]: 'funcion' type restpart
-    {$v = myinfo.palres("funcion ") + $type.v + $restpart.v + "<BR/>";myinfo.newDec($v);} | 'procedimiento' restpart {$v = myinfo.palres("procedimiento ") + $restpart.v + "</BR>";myinfo.newDec($v);};
+part returns [String v]: 'funcion' type restpart["funcion "]
+    {$v = myinfo.palres("funcion ") + $type.v + $restpart.v + "<BR/>";
+    myinfo.newDec($v);
+
+    } | 'procedimiento' restpart["procedimiento "] {$v = myinfo.palres("procedimiento ") + $restpart.v + "</BR>";myinfo.newDec($v);};
 
 //generar una dupla? para coger cabecera o el resto de cosas
-restpart returns [String v]: IDENTIFICADOR '(' restpart2[$IDENTIFICADOR.text]
+restpart[String i] returns [String v]: IDENTIFICADOR '(' restpart2[$i + $IDENTIFICADOR.text + " ( ", $IDENTIFICADOR.text]
     {$v = myinfo.identificadores($IDENTIFICADOR.text) + "(" + $restpart2.v;};
-restpart2[String i] returns [String v]: listparam ')' blq
+restpart2[String frase, String nombreCab] returns [String v]: listparam ')' blq
     {
-    String cab = $listparam.v + ")";
-
+    String cab = $listparam.v + " ) ";
+    myinfo.addCabecera($frase + $listparam.v + " ) ",$nombreCab);
     $v = $listparam.v + ")" + $blq.v;
-
     }
-    | ')' blq {$v = ")" + $blq.v;}
+    | ')' blq {
+    myinfo.addCabecera($frase + ")",$nombreCab);
+    $v = ")" + $blq.v;
+    }
     ;
 
 listparam returns [String v]: type IDENTIFICADOR listparam2 {$v = $type.v + myinfo.identificadores($IDENTIFICADOR.text) + $listparam2.v;};
@@ -42,7 +48,7 @@ listparam2 returns [String v]: ',' type IDENTIFICADOR {$v = "," + $type.v + myin
 
 type returns [String v]: 'entero' {$v = myinfo.palres("entero ");}| 'real' {$v = myinfo.palres("real ");}|'caracter' {$v = myinfo.palres("caracter ");};
 
-blq returns [String v]: 'inicio' sentlist 'fin' {$v = myinfo.palres("inicio ") + $sentlist.v + myinfo.palres("fin ");};
+blq returns [String v]: 'inicio' sentlist 'fin' {$v = "\r\n<BR/>" + myinfo.palres("inicio ") + $sentlist.v + myinfo.palres("fin ");};
 
 sentlist returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;};
 sentlist2 returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;} //USAR HEREDADOS????
@@ -111,8 +117,8 @@ cond returns [String v]: exp opr exp {$v = $exp.v + $opr.v + $exp.v;}
     | 'falso' {$v = myinfo.palres("falso ");}
     ;
 
-opl returns [String v]: 'y' {$v = "y";}
-    | 'o' {$v = "o";}
+opl returns [String v]: 'y' {$v = myinfo.palres("y ");}
+    | 'o' {$v = myinfo.palres("o ");}
     ;
 
 opr returns [String v]: '==' {$v = "==";}
@@ -123,7 +129,7 @@ opr returns [String v]: '==' {$v = "==";}
     | '<=' {$v = "<=";}
     ;
 
-lid returns [String v]: IDENTIFICADOR lid2 {$v = $IDENTIFICADOR.text + $lid2.v;};
+lid returns [String v]: IDENTIFICADOR lid2 {$v = myinfo.identificadores($IDENTIFICADOR.text) + $lid2.v;};
 lid2 returns [String v]: ',' lid {$v = "," + $lid.v;} //USAR HERENCIA?????
     | {$v = "";}
     ;
@@ -136,11 +142,11 @@ exp2 returns [String v]: op funcion exp2 {$v = $op.v + $funcion.v + $exp2.v;}//U
     | {$v = "";}
     ;
 
-funcion returns [String v]: IDENTIFICADOR funcion2 {$v = $IDENTIFICADOR.text + $funcion2.v;}
+funcion returns [String v]: IDENTIFICADOR funcion2 {$v = myinfo.identificadores($IDENTIFICADOR.text) + $funcion2.v;}
     | '(' exp ')' {$v = "(" + $exp.v + ")";}
-    | CONSTENTERO {$v = $CONSTENTERO.text;}
-    | CONSTREAL {$v = $CONSTREAL.text;}
-    | CONSTLIT {$v = $CONSTLIT.text;}
+    | CONSTENTERO {$v = myinfo.constante($CONSTENTERO.text);}
+    | CONSTREAL {$v = myinfo.constante($CONSTREAL.text);}
+    | CONSTLIT {$v = myinfo.constante($CONSTLIT.text);}
     ;
 funcion2 returns [String v]: '(' lid ')' {$v = "(" + $lid.v + ")\n";} // Usar atributos heredados????
     | {$v = " ";}

@@ -5,3 +5,10 @@ inicio
 	resultado = lado * lado;
 	return resultado;
 fin
+funcion real areaCuadrado ( real lado )
+inicio
+	real resultado;
+	resultado = 0.0;
+	resultado = lado * lado;
+	return resultado;
+fin
