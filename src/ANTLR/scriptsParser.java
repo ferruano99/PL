@@ -4,6 +4,7 @@ package ANTLR;
 
 import Java.Reservadas;
 import Java.ListParams;
+import Java.Restpart;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -279,8 +280,8 @@ public class scriptsParser extends Parser {
 				((PartContext)_localctx).type = type();
 				setState(69);
 				((PartContext)_localctx).restpart = restpart(((PartContext)_localctx).type.v.getPalabra());
-				((PartContext)_localctx).v =  myinfo.palres("funcion ").formatPalres() + ((PartContext)_localctx).type.v.getPalHTML() + ((PartContext)_localctx).restpart.v + "<BR/>";
-				    myinfo.newDec(_localctx.v);
+				((PartContext)_localctx).v =  myinfo.palres("funcion ").formatPalres() + ((PartContext)_localctx).type.v.getPalHTML() + ((PartContext)_localctx).restpart.v.getNombreFuncion() + "<BR/>";
+				    myinfo.newDec(_localctx.v,((PartContext)_localctx).restpart.v.getRest());
 
 				    
 				}
@@ -292,7 +293,9 @@ public class scriptsParser extends Parser {
 				match(T__1);
 				setState(73);
 				((PartContext)_localctx).restpart = restpart("");
-				((PartContext)_localctx).v =  myinfo.palres("procedimiento ").formatPalres() + ((PartContext)_localctx).restpart.v + "</BR>";myinfo.newDec(_localctx.v);
+				((PartContext)_localctx).v =  myinfo.palres("procedimiento ").formatPalres() + ((PartContext)_localctx).restpart.v.getNombreFuncion() + "</BR>";
+				    myinfo.newDec(_localctx.v,((PartContext)_localctx).restpart.v.getRest());
+				    
 				}
 				break;
 			default:
@@ -312,7 +315,7 @@ public class scriptsParser extends Parser {
 
 	public static class RestpartContext extends ParserRuleContext {
 		public String tipo;
-		public String v;
+		public Restpart v;
 		public Token IDENTIFICADOR;
 		public Restpart2Context restpart2;
 		public TerminalNode IDENTIFICADOR() { return getToken(scriptsParser.IDENTIFICADOR, 0); }
@@ -347,7 +350,9 @@ public class scriptsParser extends Parser {
 			match(T__2);
 			setState(80);
 			((RestpartContext)_localctx).restpart2 = restpart2(_localctx.tipo + (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null) + " ( ", (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null));
-			((RestpartContext)_localctx).v =  myinfo.identificadores((((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + "(" + ((RestpartContext)_localctx).restpart2.v;
+
+			        ((RestpartContext)_localctx).v =  myinfo.restp(myinfo.identificadores((((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + "(" + ((RestpartContext)_localctx).restpart2.v,(((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null));
+			    
 			}
 		}
 		catch (RecognitionException re) {
@@ -651,7 +656,7 @@ public class scriptsParser extends Parser {
 			((BlqContext)_localctx).sentlist = sentlist();
 			setState(117);
 			match(T__9);
-			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ").formatPalres();
+			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ").formatPalres();
 			}
 		}
 		catch (RecognitionException re) {
@@ -855,7 +860,7 @@ public class scriptsParser extends Parser {
 				((SentContext)_localctx).lid = lid();
 				setState(133);
 				match(T__10);
-				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v.getPalHTML() + ((SentContext)_localctx).lid.v + ";");
+				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v.getPalHTML() + ((SentContext)_localctx).lid.v + ";  ");
 				}
 				break;
 			case IDENTIFICADOR:
@@ -882,7 +887,7 @@ public class scriptsParser extends Parser {
 				match(T__10);
 
 				            String r = myinfo.palres("return ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(r + ((SentContext)_localctx).exp.v + ";");
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(r + ((SentContext)_localctx).exp.v + " ; ");
 				        
 				}
 				break;
@@ -909,7 +914,7 @@ public class scriptsParser extends Parser {
 				        String bif = myinfo.palres("bifurcacion ").formatPalres();
 				        String entonces = myinfo.palres("entonces ").formatPalres();
 				        String sino = myinfo.palres("sino ").formatPalres();
-				        ((SentContext)_localctx).v =  myinfo.addSentencia(bif + "(" + ((SentContext)_localctx).lcond.v + ")" + entonces + ((SentContext)_localctx).blq.v + sino + ((SentContext)_localctx).blq.v);
+				        ((SentContext)_localctx).v =  myinfo.addSentencia(bif + " ( " + ((SentContext)_localctx).lcond.v + " ) " + entonces + ((SentContext)_localctx).blq.v + sino + ((SentContext)_localctx).blq.v);
 				        
 				}
 				break;
@@ -937,7 +942,7 @@ public class scriptsParser extends Parser {
 
 				        String buclepara = myinfo.palres("buclepara ").formatPalres();
 				        String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores();
-				        ((SentContext)_localctx).v =  myinfo.addSentencia(buclepara + "(" + id + ((SentContext)_localctx).asig.v + ((SentContext)_localctx).exp.v + ";" + ((SentContext)_localctx).lcond.v + ";" + ((SentContext)_localctx).sentfor.v);
+				        ((SentContext)_localctx).v =  myinfo.addSentencia(buclepara + " ( " + id + ((SentContext)_localctx).asig.v + ((SentContext)_localctx).exp.v + " ; " + ((SentContext)_localctx).lcond.v + " ; " + ((SentContext)_localctx).sentfor.v);
 				        
 				}
 				break;
@@ -956,7 +961,7 @@ public class scriptsParser extends Parser {
 				((SentContext)_localctx).blq = blq();
 
 				            String buclemientras = myinfo.palres("buclemientras ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(buclemientras + "(" + ((SentContext)_localctx).lcond.v + ")" + ((SentContext)_localctx).blq.v);
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(buclemientras + " ( " + ((SentContext)_localctx).lcond.v + " ) " + ((SentContext)_localctx).blq.v);
 				        
 				}
 				break;
@@ -978,7 +983,7 @@ public class scriptsParser extends Parser {
 
 				            String bucle = myinfo.palres("bucle ").formatPalres();
 				            String hasta = myinfo.palres("hasta ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(bucle + ((SentContext)_localctx).blq.v + hasta + "(" + ((SentContext)_localctx).lcond.v + ")");
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(bucle + ((SentContext)_localctx).blq.v + hasta + " ( " + ((SentContext)_localctx).lcond.v + " ) ");
 				        
 				}
 				break;
@@ -1052,7 +1057,7 @@ public class scriptsParser extends Parser {
 			setState(190);
 			((SentforContext)_localctx).blq = blq();
 
-			    ((SentforContext)_localctx).v =  (((SentforContext)_localctx).IDENTIFICADOR!=null?((SentforContext)_localctx).IDENTIFICADOR.getText():null) + ((SentforContext)_localctx).asig.v + ((SentforContext)_localctx).exp.v + ")" + ((SentforContext)_localctx).blq.v;
+			    ((SentforContext)_localctx).v =  (((SentforContext)_localctx).IDENTIFICADOR!=null?((SentforContext)_localctx).IDENTIFICADOR.getText():null) + ((SentforContext)_localctx).asig.v + ((SentforContext)_localctx).exp.v + " ) " + ((SentforContext)_localctx).blq.v;
 			    
 			}
 		}
@@ -1109,7 +1114,7 @@ public class scriptsParser extends Parser {
 				match(T__2);
 				setState(194);
 				((Sent2Context)_localctx).sent3 = sent3();
-				((Sent2Context)_localctx).v =  "(" + ((Sent2Context)_localctx).sent3.v;
+				((Sent2Context)_localctx).v =  " ( " + ((Sent2Context)_localctx).sent3.v;
 				}
 				break;
 			case T__30:
@@ -1125,7 +1130,7 @@ public class scriptsParser extends Parser {
 				((Sent2Context)_localctx).exp = exp();
 				setState(199);
 				match(T__10);
-				((Sent2Context)_localctx).v =  ((Sent2Context)_localctx).asig.v + ((Sent2Context)_localctx).exp.v;
+				((Sent2Context)_localctx).v =  ((Sent2Context)_localctx).asig.v + ((Sent2Context)_localctx).exp.v + " ; ";
 				}
 				break;
 			default:
@@ -1179,7 +1184,7 @@ public class scriptsParser extends Parser {
 				match(T__3);
 				setState(206);
 				match(T__10);
-				((Sent3Context)_localctx).v =  ((Sent3Context)_localctx).lid.v + ")" + ";";
+				((Sent3Context)_localctx).v =  ((Sent3Context)_localctx).lid.v + " ) " + " ; ";
 				}
 				break;
 			case T__3:
@@ -1189,7 +1194,7 @@ public class scriptsParser extends Parser {
 				match(T__3);
 				setState(210);
 				match(T__10);
-				((Sent3Context)_localctx).v =  ")" + ";";
+				((Sent3Context)_localctx).v =  " ) " + " ; ";
 				}
 				break;
 			default:
@@ -1525,7 +1530,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(254);
 				match(T__24);
-				((OprContext)_localctx).v =  "==";
+				((OprContext)_localctx).v =  " == ";
 				}
 				break;
 			case T__25:
@@ -1533,7 +1538,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(256);
 				match(T__25);
-				((OprContext)_localctx).v =  "<>";
+				((OprContext)_localctx).v =  " <> ";
 				}
 				break;
 			case T__26:
@@ -1541,7 +1546,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(258);
 				match(T__26);
-				((OprContext)_localctx).v =  "<";
+				((OprContext)_localctx).v =  " < ";
 				}
 				break;
 			case T__27:
@@ -1549,7 +1554,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(260);
 				match(T__27);
-				((OprContext)_localctx).v =  ">";
+				((OprContext)_localctx).v =  " > ";
 				}
 				break;
 			case T__28:
@@ -1557,7 +1562,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(262);
 				match(T__28);
-				((OprContext)_localctx).v =  ">=";
+				((OprContext)_localctx).v =  " >= ";
 				}
 				break;
 			case T__29:
@@ -1565,7 +1570,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(264);
 				match(T__29);
-				((OprContext)_localctx).v =  "<=";
+				((OprContext)_localctx).v =  " <= ";
 				}
 				break;
 			default:
@@ -1663,7 +1668,7 @@ public class scriptsParser extends Parser {
 				match(T__4);
 				setState(273);
 				((Lid2Context)_localctx).lid = lid();
-				((Lid2Context)_localctx).v =  "," + ((Lid2Context)_localctx).lid.v;
+				((Lid2Context)_localctx).v =  " , " + ((Lid2Context)_localctx).lid.v;
 				}
 				break;
 			case T__3:
@@ -1716,7 +1721,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(279);
 				match(T__30);
-				((AsigContext)_localctx).v =  "=";
+				((AsigContext)_localctx).v =  " = ";
 				}
 				break;
 			case T__31:
@@ -1724,7 +1729,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(281);
 				match(T__31);
-				((AsigContext)_localctx).v =  "+=";
+				((AsigContext)_localctx).v =  " += ";
 				}
 				break;
 			case T__32:
@@ -1732,7 +1737,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(283);
 				match(T__32);
-				((AsigContext)_localctx).v =  "-=";
+				((AsigContext)_localctx).v =  " -= ";
 				}
 				break;
 			case T__33:
@@ -1740,7 +1745,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(285);
 				match(T__33);
-				((AsigContext)_localctx).v =  "*=";
+				((AsigContext)_localctx).v =  " *= ";
 				}
 				break;
 			case T__34:
@@ -1748,7 +1753,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(287);
 				match(T__34);
-				((AsigContext)_localctx).v =  "/=";
+				((AsigContext)_localctx).v =  " /= ";
 				}
 				break;
 			default:
@@ -1952,7 +1957,7 @@ public class scriptsParser extends Parser {
 				((FuncionContext)_localctx).exp = exp();
 				setState(309);
 				match(T__3);
-				((FuncionContext)_localctx).v =  "(" + ((FuncionContext)_localctx).exp.v + ")";
+				((FuncionContext)_localctx).v =  " ( " + ((FuncionContext)_localctx).exp.v + " ) ";
 				}
 				break;
 			case CONSTENTERO:
@@ -2030,7 +2035,7 @@ public class scriptsParser extends Parser {
 				((Funcion2Context)_localctx).lid = lid();
 				setState(322);
 				match(T__3);
-				((Funcion2Context)_localctx).v =  "(" + ((Funcion2Context)_localctx).lid.v + ")\n";
+				((Funcion2Context)_localctx).v =  " ( " + ((Funcion2Context)_localctx).lid.v + " ) \n";
 				}
 				break;
 			case T__3:
@@ -2095,7 +2100,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(328);
 				match(T__35);
-				((OpContext)_localctx).v =  "+";
+				((OpContext)_localctx).v =  " + ";
 				}
 				break;
 			case T__36:
@@ -2103,7 +2108,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(330);
 				match(T__36);
-				((OpContext)_localctx).v =  "-";
+				((OpContext)_localctx).v =  " - ";
 				}
 				break;
 			case T__37:
@@ -2111,7 +2116,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(332);
 				match(T__37);
-				((OpContext)_localctx).v =  "*";
+				((OpContext)_localctx).v =  " * " ;
 				}
 				break;
 			case T__38:
@@ -2119,7 +2124,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(334);
 				match(T__38);
-				((OpContext)_localctx).v =  "/";
+				((OpContext)_localctx).v =  " / ";
 				}
 				break;
 			default:
