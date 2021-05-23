@@ -8,8 +8,6 @@ public class Sintesis { //La clase principal para guardar todo
     //en el main imprimirlo con el método resumen
     private List<String> declaraciones; //Lista con todas las funciones
 
-    private Reservadas reservadas = new Reservadas();
-
     private List<Sentencia> sentencias = new ArrayList<>();
     private List<Cabecera> cabeceras = new ArrayList<>();
 
@@ -24,7 +22,7 @@ public class Sintesis { //La clase principal para guardar todo
     }
 
     public void imprimirCabecera(String titulo){
-        System.out.println( //Meter en resumen este cacho
+        System.out.println(
                 "<!DOCTYPE html>\n" +
                         "<HTML>\n" +
                         "   <head>\n" +
@@ -51,16 +49,24 @@ public class Sintesis { //La clase principal para guardar todo
         cabeceras.add(cab);
     }
 
-    public String constante(String entrada) {
-        return this.reservadas.constante(entrada);
+    public Reservadas constante(String entrada) {
+        Reservadas pal = new Reservadas(entrada);
+        return pal;
     }
 
-    public String identificadores(String entrada) {
-        return this.reservadas.identificadores(entrada);
+    public Reservadas identificadores(String entrada) {
+        Reservadas pal = new Reservadas(entrada);
+        return pal;
     }
 
-    public String palres(String entrada) {
-        return this.reservadas.palres(entrada);
+    public Reservadas palres(String entrada) {
+        Reservadas pal = new Reservadas(entrada);
+        return pal;
+    }
+
+    public ListParams listaPar(String conFormat,String sinFormat){
+        ListParams lp = new ListParams(conFormat,sinFormat);
+        return lp;
     }
 
     public void newDec(String declaracion) {
@@ -70,16 +76,12 @@ public class Sintesis { //La clase principal para guardar todo
 
 
     public void resumen() { //habría que generar el código HTML
-
-        System.out.println(declaraciones.size());
-        if (declaraciones.size() != 0) {
             for (String declaracion : declaraciones) {
                 System.out.println("<HR/>");
                 System.out.println(declaracion);
+                System.out.println("<A HREF=\"#intercambioEntero\">Inicio de rutina</A><BR/>");
+                System.out.println("<A HREF=\"#inicio\">Inicio de programa</A>");
             }
-        } else {
-            System.out.println("nada");
-        }
         System.out.println(
                 "   </body>\n" +
                         "</html>");

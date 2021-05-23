@@ -1,6 +1,6 @@
 package Java;
 
-public class Sentencia extends Reservadas{
+public class Sentencia {
     private String sent;
     private String nombreFuncion;
 
@@ -22,7 +22,7 @@ public class Sentencia extends Reservadas{
     }
 
     public String imprimirSentencia(String sentencia){
-        return "<DIV style=\"text-indent: 0.5cm\">"+sentencia+"</DIV>\n"; //TODO
+        return "    <DIV style=\"text-indent: 0.5cm\">"+sentencia+"</DIV>\n"; //TODO
 
     }
 }

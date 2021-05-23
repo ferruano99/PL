@@ -2,6 +2,8 @@
 
 package ANTLR;
 
+import Java.Reservadas;
+import Java.ListParams;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

@@ -2,6 +2,8 @@
 
 package ANTLR;
 
+import Java.Reservadas;
+import Java.ListParams;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -276,8 +278,8 @@ public class scriptsParser extends Parser {
 				setState(68);
 				((PartContext)_localctx).type = type();
 				setState(69);
-				((PartContext)_localctx).restpart = restpart("funcion ");
-				((PartContext)_localctx).v =  myinfo.palres("funcion ") + ((PartContext)_localctx).type.v + ((PartContext)_localctx).restpart.v + "<BR/>";
+				((PartContext)_localctx).restpart = restpart(((PartContext)_localctx).type.v.getPalabra());
+				((PartContext)_localctx).v =  myinfo.palres("funcion ").formatPalres() + ((PartContext)_localctx).type.v.getPalHTML() + ((PartContext)_localctx).restpart.v + "<BR/>";
 				    myinfo.newDec(_localctx.v);
 
 				    
@@ -289,8 +291,8 @@ public class scriptsParser extends Parser {
 				setState(72);
 				match(T__1);
 				setState(73);
-				((PartContext)_localctx).restpart = restpart("procedimiento ");
-				((PartContext)_localctx).v =  myinfo.palres("procedimiento ") + ((PartContext)_localctx).restpart.v + "</BR>";myinfo.newDec(_localctx.v);
+				((PartContext)_localctx).restpart = restpart("");
+				((PartContext)_localctx).v =  myinfo.palres("procedimiento ").formatPalres() + ((PartContext)_localctx).restpart.v + "</BR>";myinfo.newDec(_localctx.v);
 				}
 				break;
 			default:
@@ -309,7 +311,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class RestpartContext extends ParserRuleContext {
-		public String i;
+		public String tipo;
 		public String v;
 		public Token IDENTIFICADOR;
 		public Restpart2Context restpart2;
@@ -318,9 +320,9 @@ public class scriptsParser extends Parser {
 			return getRuleContext(Restpart2Context.class,0);
 		}
 		public RestpartContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
-		public RestpartContext(ParserRuleContext parent, int invokingState, String i) {
+		public RestpartContext(ParserRuleContext parent, int invokingState, String tipo) {
 			super(parent, invokingState);
-			this.i = i;
+			this.tipo = tipo;
 		}
 		@Override public int getRuleIndex() { return RULE_restpart; }
 		@Override
@@ -333,8 +335,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final RestpartContext restpart(String i) throws RecognitionException {
-		RestpartContext _localctx = new RestpartContext(_ctx, getState(), i);
+	public final RestpartContext restpart(String tipo) throws RecognitionException {
+		RestpartContext _localctx = new RestpartContext(_ctx, getState(), tipo);
 		enterRule(_localctx, 6, RULE_restpart);
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -344,8 +346,8 @@ public class scriptsParser extends Parser {
 			setState(79);
 			match(T__2);
 			setState(80);
-			((RestpartContext)_localctx).restpart2 = restpart2(_localctx.i + (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null) + " ( ", (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null));
-			((RestpartContext)_localctx).v =  myinfo.identificadores((((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null)) + "(" + ((RestpartContext)_localctx).restpart2.v;
+			((RestpartContext)_localctx).restpart2 = restpart2(_localctx.tipo + (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null) + " ( ", (((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null));
+			((RestpartContext)_localctx).v =  myinfo.identificadores((((RestpartContext)_localctx).IDENTIFICADOR!=null?((RestpartContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + "(" + ((RestpartContext)_localctx).restpart2.v;
 			}
 		}
 		catch (RecognitionException re) {
@@ -408,8 +410,8 @@ public class scriptsParser extends Parser {
 				((Restpart2Context)_localctx).blq = blq();
 
 				    String cab = ((Restpart2Context)_localctx).listparam.v + " ) ";
-				    myinfo.addCabecera(_localctx.frase + ((Restpart2Context)_localctx).listparam.v + " ) ",_localctx.nombreCab);
-				    ((Restpart2Context)_localctx).v =  ((Restpart2Context)_localctx).listparam.v + ")" + ((Restpart2Context)_localctx).blq.v;
+				    myinfo.addCabecera(_localctx.frase + ((Restpart2Context)_localctx).listparam.v.getTextoPlano() + " ) ",_localctx.nombreCab);
+				    ((Restpart2Context)_localctx).v =  ((Restpart2Context)_localctx).listparam.v.getFormateado() + ")" + ((Restpart2Context)_localctx).blq.v;
 				    
 				}
 				break;
@@ -442,7 +444,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class ListparamContext extends ParserRuleContext {
-		public String v;
+		public ListParams v;
 		public TypeContext type;
 		public Token IDENTIFICADOR;
 		public Listparam2Context listparam2;
@@ -479,7 +481,7 @@ public class scriptsParser extends Parser {
 			((ListparamContext)_localctx).IDENTIFICADOR = match(IDENTIFICADOR);
 			setState(96);
 			((ListparamContext)_localctx).listparam2 = listparam2();
-			((ListparamContext)_localctx).v =  ((ListparamContext)_localctx).type.v + myinfo.identificadores((((ListparamContext)_localctx).IDENTIFICADOR!=null?((ListparamContext)_localctx).IDENTIFICADOR.getText():null)) + ((ListparamContext)_localctx).listparam2.v;
+			((ListparamContext)_localctx).v =  myinfo.listaPar(((ListparamContext)_localctx).type.v.getPalHTML() + myinfo.identificadores((((ListparamContext)_localctx).IDENTIFICADOR!=null?((ListparamContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + ((ListparamContext)_localctx).listparam2.v.getFormateado(), ((ListparamContext)_localctx).type.v.getPalabra() + myinfo.identificadores((((ListparamContext)_localctx).IDENTIFICADOR!=null?((ListparamContext)_localctx).IDENTIFICADOR.getText():null)).getPalabra() + ((ListparamContext)_localctx).listparam2.v.getTextoPlano());
 			}
 		}
 		catch (RecognitionException re) {
@@ -494,7 +496,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class Listparam2Context extends ParserRuleContext {
-		public String v;
+		public ListParams v;
 		public TypeContext type;
 		public Token IDENTIFICADOR;
 		public TypeContext type() {
@@ -531,13 +533,13 @@ public class scriptsParser extends Parser {
 				((Listparam2Context)_localctx).type = type();
 				setState(101);
 				((Listparam2Context)_localctx).IDENTIFICADOR = match(IDENTIFICADOR);
-				((Listparam2Context)_localctx).v =  "," + ((Listparam2Context)_localctx).type.v + myinfo.identificadores((((Listparam2Context)_localctx).IDENTIFICADOR!=null?((Listparam2Context)_localctx).IDENTIFICADOR.getText():null));
+				((Listparam2Context)_localctx).v =  myinfo.listaPar("," + ((Listparam2Context)_localctx).type.v.getPalHTML() + myinfo.identificadores((((Listparam2Context)_localctx).IDENTIFICADOR!=null?((Listparam2Context)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores(), "," + ((Listparam2Context)_localctx).type.v.getPalabra() + myinfo.identificadores((((Listparam2Context)_localctx).IDENTIFICADOR!=null?((Listparam2Context)_localctx).IDENTIFICADOR.getText():null)).getPalabra());
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				((Listparam2Context)_localctx).v =  "";
+				((Listparam2Context)_localctx).v =  myinfo.listaPar("","");
 				}
 				break;
 			default:
@@ -556,7 +558,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public String v;
+		public Reservadas v;
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -583,7 +585,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(107);
 				match(T__5);
-				((TypeContext)_localctx).v =  myinfo.palres("entero ");
+				((TypeContext)_localctx).v =  myinfo.palres("entero ");_localctx.v.formatPalres();
 				}
 				break;
 			case T__6:
@@ -591,7 +593,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(109);
 				match(T__6);
-				((TypeContext)_localctx).v =  myinfo.palres("real ");
+				((TypeContext)_localctx).v =  myinfo.palres("real ");_localctx.v.formatPalres();
 				}
 				break;
 			case T__7:
@@ -599,7 +601,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(111);
 				match(T__7);
-				((TypeContext)_localctx).v =  myinfo.palres("caracter ");
+				((TypeContext)_localctx).v =  myinfo.palres("caracter ");_localctx.v.formatPalres();
 				}
 				break;
 			default:
@@ -649,7 +651,7 @@ public class scriptsParser extends Parser {
 			((BlqContext)_localctx).sentlist = sentlist();
 			setState(117);
 			match(T__9);
-			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ") + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ");
+			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ").formatPalres();
 			}
 		}
 		catch (RecognitionException re) {
@@ -853,7 +855,7 @@ public class scriptsParser extends Parser {
 				((SentContext)_localctx).lid = lid();
 				setState(133);
 				match(T__10);
-				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v + ((SentContext)_localctx).lid.v + ";");
+				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v.getPalHTML() + ((SentContext)_localctx).lid.v + ";");
 				}
 				break;
 			case IDENTIFICADOR:
@@ -864,7 +866,7 @@ public class scriptsParser extends Parser {
 				setState(137);
 				((SentContext)_localctx).sent2 = sent2();
 
-				            String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null));
+				            String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores();
 				            ((SentContext)_localctx).v =   myinfo.addSentencia(id + ((SentContext)_localctx).sent2.v);
 				        
 				}
@@ -879,7 +881,7 @@ public class scriptsParser extends Parser {
 				setState(142);
 				match(T__10);
 
-				            String r = myinfo.palres("return ");
+				            String r = myinfo.palres("return ").formatPalres();
 				            ((SentContext)_localctx).v =  myinfo.addSentencia(r + ((SentContext)_localctx).exp.v + ";");
 				        
 				}
@@ -904,9 +906,9 @@ public class scriptsParser extends Parser {
 				setState(152);
 				((SentContext)_localctx).blq = blq();
 
-				        String bif = myinfo.palres("bifurcacion ");
-				        String entonces = myinfo.palres("entonces ");
-				        String sino = myinfo.palres("sino ");
+				        String bif = myinfo.palres("bifurcacion ").formatPalres();
+				        String entonces = myinfo.palres("entonces ").formatPalres();
+				        String sino = myinfo.palres("sino ").formatPalres();
 				        ((SentContext)_localctx).v =  myinfo.addSentencia(bif + "(" + ((SentContext)_localctx).lcond.v + ")" + entonces + ((SentContext)_localctx).blq.v + sino + ((SentContext)_localctx).blq.v);
 				        
 				}
@@ -933,8 +935,8 @@ public class scriptsParser extends Parser {
 				setState(163);
 				((SentContext)_localctx).sentfor = sentfor();
 
-				        String buclepara = myinfo.palres("buclepara ");
-				        String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null));
+				        String buclepara = myinfo.palres("buclepara ").formatPalres();
+				        String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores();
 				        ((SentContext)_localctx).v =  myinfo.addSentencia(buclepara + "(" + id + ((SentContext)_localctx).asig.v + ((SentContext)_localctx).exp.v + ";" + ((SentContext)_localctx).lcond.v + ";" + ((SentContext)_localctx).sentfor.v);
 				        
 				}
@@ -953,7 +955,7 @@ public class scriptsParser extends Parser {
 				setState(170);
 				((SentContext)_localctx).blq = blq();
 
-				            String buclemientras = myinfo.palres("buclemientras ");
+				            String buclemientras = myinfo.palres("buclemientras ").formatPalres();
 				            ((SentContext)_localctx).v =  myinfo.addSentencia(buclemientras + "(" + ((SentContext)_localctx).lcond.v + ")" + ((SentContext)_localctx).blq.v);
 				        
 				}
@@ -974,8 +976,8 @@ public class scriptsParser extends Parser {
 				setState(178);
 				match(T__3);
 
-				            String bucle = myinfo.palres("bucle ");
-				            String hasta = myinfo.palres("hasta ");
+				            String bucle = myinfo.palres("bucle ").formatPalres();
+				            String hasta = myinfo.palres("hasta ").formatPalres();
 				            ((SentContext)_localctx).v =  myinfo.addSentencia(bucle + ((SentContext)_localctx).blq.v + hasta + "(" + ((SentContext)_localctx).lcond.v + ")");
 				        
 				}
@@ -1282,7 +1284,7 @@ public class scriptsParser extends Parser {
 				((LcondContext)_localctx).cond = cond();
 				setState(225);
 				((LcondContext)_localctx).lcond2 = lcond2();
-				((LcondContext)_localctx).v =  myinfo.palres("no ") + ((LcondContext)_localctx).cond.v + ((LcondContext)_localctx).lcond2.v;
+				((LcondContext)_localctx).v =  myinfo.palres("no ").formatPalres() + ((LcondContext)_localctx).cond.v + ((LcondContext)_localctx).lcond2.v;
 				}
 				break;
 			default:
@@ -1415,7 +1417,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(242);
 				match(T__20);
-				((CondContext)_localctx).v =  myinfo.palres("cierto ");
+				((CondContext)_localctx).v =  myinfo.palres("cierto ").formatPalres();
 				}
 				break;
 			case T__21:
@@ -1423,7 +1425,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(244);
 				match(T__21);
-				((CondContext)_localctx).v =  myinfo.palres("falso ");
+				((CondContext)_localctx).v =  myinfo.palres("falso ").formatPalres();
 				}
 				break;
 			default:
@@ -1469,7 +1471,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(248);
 				match(T__22);
-				((OplContext)_localctx).v =  myinfo.palres("y ");
+				((OplContext)_localctx).v =  myinfo.palres("y ").formatPalres();
 				}
 				break;
 			case T__23:
@@ -1477,7 +1479,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(250);
 				match(T__23);
-				((OplContext)_localctx).v =  myinfo.palres("o ");
+				((OplContext)_localctx).v =  myinfo.palres("o ").formatPalres();
 				}
 				break;
 			default:
@@ -1613,7 +1615,7 @@ public class scriptsParser extends Parser {
 			((LidContext)_localctx).IDENTIFICADOR = match(IDENTIFICADOR);
 			setState(269);
 			((LidContext)_localctx).lid2 = lid2();
-			((LidContext)_localctx).v =  myinfo.identificadores((((LidContext)_localctx).IDENTIFICADOR!=null?((LidContext)_localctx).IDENTIFICADOR.getText():null)) + ((LidContext)_localctx).lid2.v;
+			((LidContext)_localctx).v =  myinfo.identificadores((((LidContext)_localctx).IDENTIFICADOR!=null?((LidContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + ((LidContext)_localctx).lid2.v;
 			}
 		}
 		catch (RecognitionException re) {
@@ -1938,7 +1940,7 @@ public class scriptsParser extends Parser {
 				((FuncionContext)_localctx).IDENTIFICADOR = match(IDENTIFICADOR);
 				setState(304);
 				((FuncionContext)_localctx).funcion2 = funcion2();
-				((FuncionContext)_localctx).v =  myinfo.identificadores((((FuncionContext)_localctx).IDENTIFICADOR!=null?((FuncionContext)_localctx).IDENTIFICADOR.getText():null)) + ((FuncionContext)_localctx).funcion2.v;
+				((FuncionContext)_localctx).v =  myinfo.identificadores((((FuncionContext)_localctx).IDENTIFICADOR!=null?((FuncionContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores() + ((FuncionContext)_localctx).funcion2.v;
 				}
 				break;
 			case T__2:
@@ -1958,7 +1960,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(312);
 				((FuncionContext)_localctx).CONSTENTERO = match(CONSTENTERO);
-				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTENTERO!=null?((FuncionContext)_localctx).CONSTENTERO.getText():null));
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTENTERO!=null?((FuncionContext)_localctx).CONSTENTERO.getText():null)).formatConstante();
 				}
 				break;
 			case CONSTREAL:
@@ -1966,7 +1968,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(314);
 				((FuncionContext)_localctx).CONSTREAL = match(CONSTREAL);
-				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTREAL!=null?((FuncionContext)_localctx).CONSTREAL.getText():null));
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTREAL!=null?((FuncionContext)_localctx).CONSTREAL.getText():null)).formatConstante();
 				}
 				break;
 			case CONSTLIT:
@@ -1974,7 +1976,7 @@ public class scriptsParser extends Parser {
 				{
 				setState(316);
 				((FuncionContext)_localctx).CONSTLIT = match(CONSTLIT);
-				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTLIT!=null?((FuncionContext)_localctx).CONSTLIT.getText():null));
+				((FuncionContext)_localctx).v =  myinfo.constante((((FuncionContext)_localctx).CONSTLIT!=null?((FuncionContext)_localctx).CONSTLIT.getText():null)).formatConstante();
 				}
 				break;
 			default:

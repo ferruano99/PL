@@ -1,3 +1,7 @@
 Crear clases por cada movida que hagamos.
 meterla dentro de la clase síntesis y hacer un método con el HTML ya incluído
 llamar dentro del ANTLR, llamar al método correspondiente
+
+
+Array de dos posiciones para las palabras reservadas
+El tema es cómo cojones devolverlo
