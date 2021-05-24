@@ -1,6 +1,5 @@
-import ANTLR.scriptsLexer;
-import ANTLR.scriptsParser;
-import Java.Sintesis;
+import ANTLR.*;
+import Clases.ClasePrincipal;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -24,13 +23,13 @@ public class main {
 
             CommonTokenStream tokens = new CommonTokenStream(analex);
             //Creamos el objeto correspondiente
-            Sintesis datos = new Sintesis();
-            scriptsParser anasint = new scriptsParser(tokens,datos);
+            ClasePrincipal cp = new ClasePrincipal();
+            scriptsParser anasint = new scriptsParser(tokens,cp);
 
             anasint.program();
             // Lo de funciones y procedimientos
-            datos.imprimirCabecera(args[0]);
-            datos.resumen(); // el código tocho
+            //datos.imprimirCabecera(args[0]);
+            //datos.resumen(); // el código tocho
 
 
         } catch (org.antlr.v4.runtime.RecognitionException e) {
