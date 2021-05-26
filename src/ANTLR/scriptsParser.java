@@ -2,9 +2,7 @@
 
 package ANTLR;
 
-import Java.Reservadas;
-import Java.ListParams;
-import Java.Restpart;
+import Java.*;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -115,6 +113,8 @@ public class scriptsParser extends Parser {
 	public ATN getATN() { return _ATN; }
 
 
+
+	    public ANTLRErrorStrategy _errHandler = new MyErrorStrategy();
 
 	    private Java.Sintesis myinfo;
 

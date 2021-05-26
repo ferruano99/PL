@@ -2,9 +2,7 @@
 
 package ANTLR;
 
-import Java.Reservadas;
-import Java.ListParams;
-import Java.Restpart;
+import Java.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;

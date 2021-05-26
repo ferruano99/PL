@@ -2,9 +2,7 @@
 
 package ANTLR;
 
-import Java.Reservadas;
-import Java.ListParams;
-import Java.Restpart;
+import Java.*;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -105,6 +103,16 @@ public class scriptsLexer extends Lexer {
 	public Vocabulary getVocabulary() {
 		return VOCABULARY;
 	}
+
+
+		@Override
+		public void notifyListeners(LexerNoViableAltException e) {
+			String text = _input.getText(Interval.of(_tokenStartCharIndex, _input.index()));
+			String msg = "Error al reconocer este token : '"+ getErrorDisplay(text) + "'";
+
+			ANTLRErrorListener listener = getErrorListenerDispatch();
+			listener.syntaxError(this, null, _tokenStartLine, _tokenStartCharPositionInLine, msg, e);
+		}
 
 
 	public scriptsLexer(CharStream input) {

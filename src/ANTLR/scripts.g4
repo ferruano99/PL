@@ -2,9 +2,7 @@ grammar scripts;
 @header{
 package ANTLR;
 
-import Java.Reservadas;
-import Java.ListParams;
-import Java.Restpart;
+import Java.*;
 }
 @parser::members{
 
