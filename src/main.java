@@ -23,7 +23,7 @@ public class main {
 
             CommonTokenStream tokens = new CommonTokenStream(analex);
             //Creamos el objeto correspondiente
-            ClasePrincipal cp = new ClasePrincipal();
+            ClasePrincipal cp = new ClasePrincipal(args[0]);
             scriptsParser anasint = new scriptsParser(tokens,cp);
 
             anasint.program();

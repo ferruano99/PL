@@ -14,27 +14,39 @@ import Clases.*;
 
 }
 
-program : part program2;
-program2 : part program2
-    |
+
+program returns [ClasePrincipal v]: part program2
+    {
+    $program2.v.add($part.v);
+    $v.setPartList($program2.v);
+    };
+program2 returns [List<Part> v]: part program2
+    {
+        $v.add($part.v);
+        $v = $program2.v;
+    }
+    | {$v = new ArrayList<Part>();}
     ;
 
-part returns [Part v]: 'funcion' type restpart
+part returns [Part v]: 'funcion' type restpart[$v]
     {
         $v = myinfo.nuevaPart($restpart.v.getNombreFuncion(), "funcion " + $type.v.getTextoHTML() + $restpart.v.getTextoHTML(), "funcion " + $type.v.getTextoNormal() + $restpart.v.getTextoNormal());
+        $v = $restpart.v
     }
-    | 'procedimiento' restpart
+    | 'procedimiento' restpart[$v]
     {
-        $v = myinfo.nuevaPart($restpart.v.getNombreFuncion(),"procedimiento " + $type.v.getTextoHTML() + $restpart.v.getTextoHTML(), $type.v.getTextoNormal() + $restpart.v.getTextoNormal());
+        $v = myinfo.nuevaPart($restpart.v.getNombreFuncion(),"procedimiento " + $restpart.v.getTextoHTML(), $restpart.v.getTextoNormal());
+        $v = $restpart.v
     }
     ;
 
-restpart returns [Restpart v]: IDENTIFICADOR '(' restpart2
+restpart[Part i] returns [Part v]: IDENTIFICADOR '(' restpart2
     {
         $v = myinfo.nuevaRestpart($IDENTIFICADOR.text, $IDENTIFICADOR.text + " ( " + $restpart2.v.getTextoHTML(), $IDENTIFICADOR.text + " ( " + $restpart2.v.getTextoNormal());
     };
-restpart2 returns [Restpart v]: listparam ')' blq
-    {$v = myinfo.nuevaRestpart("",$listparam.v.getTextoHTML() + " ) " + $blq.v.getTextoHTML(), $listparam.v.getTextoNormal() + " ) ");
+restpart2 returns [Part v]: listparam ')' blq
+    {
+        $v = myinfo.nuevaRestpart("",$listparam.v.getTextoHTML() + " ) " + $blq.v.getTextoHTML(), $listparam.v.getTextoNormal() + " ) ");
     }
     | ')' blq
     {
@@ -42,22 +54,39 @@ restpart2 returns [Restpart v]: listparam ')' blq
     }
     ;
 
-listparam returns [Listparam v]: type IDENTIFICADOR listparam2
+listparam returns [List<Param> v]: type IDENTIFICADOR listparam2
     {
+        $v.add(new Param($IDENTIFICADOR.text,$type.v));
+        $v = $listparam2.v;
     };
-listparam2 returns [Listparam v]: ',' type IDENTIFICADOR
-    |
+listparam2 returns [List<Param> v]: ',' type IDENTIFICADOR listparam2
+{
+    $v.add(new Param($IDENTIFICADOR.text,$type.v));
+    $v = $listparam2.v;
+}
+    | {$v = new ArrayList<Param>();}
     ;
 
-type returns [Constantes v]: 'entero'
-    | 'real'
-    | 'caracter';
+type returns [Constantes v]: 'entero' {$v = new Constantes("entero ",1);}
+    | 'real' {$v = new Constantes("real ",1);}
+    | 'caracter' {$v = new Constantes("caracter ",1);};
 
-blq returns [Blq v]: 'inicio' sentlist 'fin';
+blq returns [Blq v]: 'inicio' sentlist[1] 'fin'
+    {
+        $v = new Blq($sentlist.v,1);
+    };
 
-sentlist : sent sentlist2;
-sentlist2 : sent sentlist2 //USAR HEREDADOS????
-    |
+sentlist[int sangriado] returns [List<Sent> v]: sent sentlist2
+    {
+        $v.add($sent.v);
+        $v = $sentlist2.v;
+    };
+sentlist2 returns [List<Sent> v]: sent sentlist2
+    {
+        $v.add($sent.v);
+        $v = $sentlist2.v;
+    }
+    | {$v = new ArrayList<Sent>();}
     ;
 
 sent returns [Sent v]: type lid ';'

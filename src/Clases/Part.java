@@ -1,9 +1,12 @@
 package Clases;
 
+import java.util.List;
+
 public class Part {
     private String nombreFuncion;
     private String textoHTML;
     private String textoNormal;
+    private List<Param> listParam;
 
     public Part(String nombreFuncion, String textoHTML, String textoNormal) {
         this.nombreFuncion = nombreFuncion;
