@@ -15,4 +15,28 @@ inicio
 	v2 = aux;
 fin
 
+funcion entero factorialRec ( entero valorRec )
+inicio
+	bifurcacion ( valorRec == 1 )
+	entonces
+	inicio
+		return 1;
+	fin
+	sino
+	inicio
+		entero auxRec;
+		auxRec = valorRec - 1;
+		return valorRec * factorialRec ( auxRec );
+	fin
+fin
 
+funcion entero factorialIt ( entero valorIt )
+inicio
+	entero contador, acumulador;
+	acumulador = 1;
+	buclepara ( contador=0 ; contador == valorIt ; contador = contador + 1 )
+	inicio
+		acumulador = acumulador * contador;
+	fin
+	return acumulador;
+fin

@@ -105,16 +105,6 @@ public class scriptsLexer extends Lexer {
 	}
 
 
-		@Override
-		public void notifyListeners(LexerNoViableAltException e) {
-			String text = _input.getText(Interval.of(_tokenStartCharIndex, _input.index()));
-			String msg = "Error al reconocer este token : '"+ getErrorDisplay(text) + "'";
-
-			ANTLRErrorListener listener = getErrorListenerDispatch();
-			listener.syntaxError(this, null, _tokenStartLine, _tokenStartCharPositionInLine, msg, e);
-		}
-
-
 	public scriptsLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);

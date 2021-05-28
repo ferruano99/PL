@@ -222,7 +222,6 @@ public class scriptsParser extends Parser {
 			case EOF:
 				enterOuterAlt(_localctx, 2);
 				{
-				((Program2Context)_localctx).v =  "juan pepe";
 				}
 				break;
 			default:
@@ -412,7 +411,7 @@ public class scriptsParser extends Parser {
 				setState(84);
 				match(T__3);
 				setState(85);
-				((Restpart2Context)_localctx).blq = blq();
+				((Restpart2Context)_localctx).blq = blq(1);
 
 				    String cab = ((Restpart2Context)_localctx).listparam.v + " ) ";
 				    myinfo.addCabecera(_localctx.frase + ((Restpart2Context)_localctx).listparam.v.getTextoPlano() + " ) ",_localctx.nombreCab);
@@ -426,7 +425,7 @@ public class scriptsParser extends Parser {
 				setState(88);
 				match(T__3);
 				setState(89);
-				((Restpart2Context)_localctx).blq = blq();
+				((Restpart2Context)_localctx).blq = blq(1);
 
 				    myinfo.addCabecera(_localctx.frase + ")",_localctx.nombreCab);
 				    ((Restpart2Context)_localctx).v =  ")" + ((Restpart2Context)_localctx).blq.v;
@@ -625,13 +624,16 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class BlqContext extends ParserRuleContext {
+		public int indent;
 		public String v;
 		public SentlistContext sentlist;
 		public SentlistContext sentlist() {
 			return getRuleContext(SentlistContext.class,0);
 		}
-		public BlqContext(ParserRuleContext parent, int invokingState) {
+		public BlqContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public BlqContext(ParserRuleContext parent, int invokingState, int indent) {
 			super(parent, invokingState);
+			this.indent = indent;
 		}
 		@Override public int getRuleIndex() { return RULE_blq; }
 		@Override
@@ -644,8 +646,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final BlqContext blq() throws RecognitionException {
-		BlqContext _localctx = new BlqContext(_ctx, getState());
+	public final BlqContext blq(int indent) throws RecognitionException {
+		BlqContext _localctx = new BlqContext(_ctx, getState(), indent);
 		enterRule(_localctx, 16, RULE_blq);
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -653,7 +655,7 @@ public class scriptsParser extends Parser {
 			setState(115);
 			match(T__8);
 			setState(116);
-			((BlqContext)_localctx).sentlist = sentlist();
+			((BlqContext)_localctx).sentlist = sentlist(_localctx.indent);
 			setState(117);
 			match(T__9);
 			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ").formatPalres();
@@ -671,6 +673,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class SentlistContext extends ParserRuleContext {
+		public int indent;
 		public String v;
 		public SentContext sent;
 		public Sentlist2Context sentlist2;
@@ -680,8 +683,10 @@ public class scriptsParser extends Parser {
 		public Sentlist2Context sentlist2() {
 			return getRuleContext(Sentlist2Context.class,0);
 		}
-		public SentlistContext(ParserRuleContext parent, int invokingState) {
+		public SentlistContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public SentlistContext(ParserRuleContext parent, int invokingState, int indent) {
 			super(parent, invokingState);
+			this.indent = indent;
 		}
 		@Override public int getRuleIndex() { return RULE_sentlist; }
 		@Override
@@ -694,16 +699,16 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final SentlistContext sentlist() throws RecognitionException {
-		SentlistContext _localctx = new SentlistContext(_ctx, getState());
+	public final SentlistContext sentlist(int indent) throws RecognitionException {
+		SentlistContext _localctx = new SentlistContext(_ctx, getState(), indent);
 		enterRule(_localctx, 18, RULE_sentlist);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(120);
-			((SentlistContext)_localctx).sent = sent();
+			((SentlistContext)_localctx).sent = sent(_localctx.indent);
 			setState(121);
-			((SentlistContext)_localctx).sentlist2 = sentlist2();
+			((SentlistContext)_localctx).sentlist2 = sentlist2(_localctx.indent);
 			((SentlistContext)_localctx).v =  ((SentlistContext)_localctx).sent.v + ((SentlistContext)_localctx).sentlist2.v;
 			}
 		}
@@ -719,6 +724,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class Sentlist2Context extends ParserRuleContext {
+		public int indent;
 		public String v;
 		public SentContext sent;
 		public Sentlist2Context sentlist2;
@@ -728,8 +734,10 @@ public class scriptsParser extends Parser {
 		public Sentlist2Context sentlist2() {
 			return getRuleContext(Sentlist2Context.class,0);
 		}
-		public Sentlist2Context(ParserRuleContext parent, int invokingState) {
+		public Sentlist2Context(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public Sentlist2Context(ParserRuleContext parent, int invokingState, int indent) {
 			super(parent, invokingState);
+			this.indent = indent;
 		}
 		@Override public int getRuleIndex() { return RULE_sentlist2; }
 		@Override
@@ -742,8 +750,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final Sentlist2Context sentlist2() throws RecognitionException {
-		Sentlist2Context _localctx = new Sentlist2Context(_ctx, getState());
+	public final Sentlist2Context sentlist2(int indent) throws RecognitionException {
+		Sentlist2Context _localctx = new Sentlist2Context(_ctx, getState(), indent);
 		enterRule(_localctx, 20, RULE_sentlist2);
 		try {
 			setState(129);
@@ -762,9 +770,9 @@ public class scriptsParser extends Parser {
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(124);
-				((Sentlist2Context)_localctx).sent = sent();
+				((Sentlist2Context)_localctx).sent = sent(_localctx.indent);
 				setState(125);
-				((Sentlist2Context)_localctx).sentlist2 = sentlist2();
+				((Sentlist2Context)_localctx).sentlist2 = sentlist2(_localctx.indent);
 				((Sentlist2Context)_localctx).v =  ((Sentlist2Context)_localctx).sent.v + ((Sentlist2Context)_localctx).sentlist2.v;
 				}
 				break;
@@ -790,6 +798,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class SentContext extends ParserRuleContext {
+		public int indent;
 		public String v;
 		public TypeContext type;
 		public LidContext lid;
@@ -828,8 +837,10 @@ public class scriptsParser extends Parser {
 		public SentforContext sentfor() {
 			return getRuleContext(SentforContext.class,0);
 		}
-		public SentContext(ParserRuleContext parent, int invokingState) {
+		public SentContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public SentContext(ParserRuleContext parent, int invokingState, int indent) {
 			super(parent, invokingState);
+			this.indent = indent;
 		}
 		@Override public int getRuleIndex() { return RULE_sent; }
 		@Override
@@ -842,8 +853,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final SentContext sent() throws RecognitionException {
-		SentContext _localctx = new SentContext(_ctx, getState());
+	public final SentContext sent(int indent) throws RecognitionException {
+		SentContext _localctx = new SentContext(_ctx, getState(), indent);
 		enterRule(_localctx, 22, RULE_sent);
 		try {
 			setState(184);
@@ -860,7 +871,7 @@ public class scriptsParser extends Parser {
 				((SentContext)_localctx).lid = lid();
 				setState(133);
 				match(T__10);
-				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v.getPalHTML() + ((SentContext)_localctx).lid.v + ";  ");
+				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).type.v.getPalHTML() + ((SentContext)_localctx).lid.v + ";  ",_localctx.indent);
 				}
 				break;
 			case IDENTIFICADOR:
@@ -872,7 +883,7 @@ public class scriptsParser extends Parser {
 				((SentContext)_localctx).sent2 = sent2();
 
 				            String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores();
-				            ((SentContext)_localctx).v =   myinfo.addSentencia(id + ((SentContext)_localctx).sent2.v);
+				            ((SentContext)_localctx).v =   myinfo.addSentencia(id + ((SentContext)_localctx).sent2.v,_localctx.indent);
 				        
 				}
 				break;
@@ -887,7 +898,7 @@ public class scriptsParser extends Parser {
 				match(T__10);
 
 				            String r = myinfo.palres("return ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(r + ((SentContext)_localctx).exp.v + " ; ");
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(r + ((SentContext)_localctx).exp.v + " ; ",_localctx.indent);
 				        
 				}
 				break;
@@ -905,16 +916,16 @@ public class scriptsParser extends Parser {
 				setState(149);
 				match(T__13);
 				setState(150);
-				((SentContext)_localctx).blq = blq();
+				((SentContext)_localctx).blq = blq(_localctx.indent + 1);
 				setState(151);
 				match(T__14);
 				setState(152);
-				((SentContext)_localctx).blq = blq();
+				((SentContext)_localctx).blq = blq(_localctx.indent + 1);
 
 				        String bif = myinfo.palres("bifurcacion ").formatPalres();
 				        String entonces = myinfo.palres("entonces ").formatPalres();
 				        String sino = myinfo.palres("sino ").formatPalres();
-				        ((SentContext)_localctx).v =  myinfo.addSentencia(bif + " ( " + ((SentContext)_localctx).lcond.v + " ) " + entonces + ((SentContext)_localctx).blq.v + sino + ((SentContext)_localctx).blq.v);
+				        ((SentContext)_localctx).v =  myinfo.addSentencia(bif + " ( " + ((SentContext)_localctx).lcond.v + " ) " + entonces + ((SentContext)_localctx).blq.v + sino + ((SentContext)_localctx).blq.v,_localctx.indent);
 				        
 				}
 				break;
@@ -938,11 +949,11 @@ public class scriptsParser extends Parser {
 				setState(162);
 				match(T__10);
 				setState(163);
-				((SentContext)_localctx).sentfor = sentfor();
+				((SentContext)_localctx).sentfor = sentfor(_localctx.indent);
 
 				        String buclepara = myinfo.palres("buclepara ").formatPalres();
 				        String id = myinfo.identificadores((((SentContext)_localctx).IDENTIFICADOR!=null?((SentContext)_localctx).IDENTIFICADOR.getText():null)).formatIdentificadores();
-				        ((SentContext)_localctx).v =  myinfo.addSentencia(buclepara + " ( " + id + ((SentContext)_localctx).asig.v + ((SentContext)_localctx).exp.v + " ; " + ((SentContext)_localctx).lcond.v + " ; " + ((SentContext)_localctx).sentfor.v);
+				        ((SentContext)_localctx).v =  myinfo.addSentencia(buclepara + " ( " + id + ((SentContext)_localctx).asig.v + ((SentContext)_localctx).exp.v + " ; " + ((SentContext)_localctx).lcond.v + " ; " + ((SentContext)_localctx).sentfor.v, _localctx.indent);
 				        
 				}
 				break;
@@ -958,10 +969,10 @@ public class scriptsParser extends Parser {
 				setState(169);
 				match(T__3);
 				setState(170);
-				((SentContext)_localctx).blq = blq();
+				((SentContext)_localctx).blq = blq(_localctx.indent + 1);
 
 				            String buclemientras = myinfo.palres("buclemientras ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(buclemientras + " ( " + ((SentContext)_localctx).lcond.v + " ) " + ((SentContext)_localctx).blq.v);
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(buclemientras + " ( " + ((SentContext)_localctx).lcond.v + " ) " + ((SentContext)_localctx).blq.v, _localctx.indent);
 				        
 				}
 				break;
@@ -971,7 +982,7 @@ public class scriptsParser extends Parser {
 				setState(173);
 				match(T__17);
 				setState(174);
-				((SentContext)_localctx).blq = blq();
+				((SentContext)_localctx).blq = blq(_localctx.indent + 1);
 				setState(175);
 				match(T__18);
 				setState(176);
@@ -983,7 +994,7 @@ public class scriptsParser extends Parser {
 
 				            String bucle = myinfo.palres("bucle ").formatPalres();
 				            String hasta = myinfo.palres("hasta ").formatPalres();
-				            ((SentContext)_localctx).v =  myinfo.addSentencia(bucle + ((SentContext)_localctx).blq.v + hasta + " ( " + ((SentContext)_localctx).lcond.v + " ) ");
+				            ((SentContext)_localctx).v =  myinfo.addSentencia(bucle + ((SentContext)_localctx).blq.v + hasta + " ( " + ((SentContext)_localctx).lcond.v + " ) ",_localctx.indent);
 				        
 				}
 				break;
@@ -991,8 +1002,8 @@ public class scriptsParser extends Parser {
 				enterOuterAlt(_localctx, 8);
 				{
 				setState(181);
-				((SentContext)_localctx).blq = blq();
-				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).blq.v);
+				((SentContext)_localctx).blq = blq(_localctx.indent + 1);
+				((SentContext)_localctx).v =  myinfo.addSentencia(((SentContext)_localctx).blq.v,_localctx.indent);
 				}
 				break;
 			default:
@@ -1011,6 +1022,7 @@ public class scriptsParser extends Parser {
 	}
 
 	public static class SentforContext extends ParserRuleContext {
+		public int indent;
 		public String v;
 		public Token IDENTIFICADOR;
 		public AsigContext asig;
@@ -1026,8 +1038,10 @@ public class scriptsParser extends Parser {
 		public BlqContext blq() {
 			return getRuleContext(BlqContext.class,0);
 		}
-		public SentforContext(ParserRuleContext parent, int invokingState) {
+		public SentforContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
+		public SentforContext(ParserRuleContext parent, int invokingState, int indent) {
 			super(parent, invokingState);
+			this.indent = indent;
 		}
 		@Override public int getRuleIndex() { return RULE_sentfor; }
 		@Override
@@ -1040,8 +1054,8 @@ public class scriptsParser extends Parser {
 		}
 	}
 
-	public final SentforContext sentfor() throws RecognitionException {
-		SentforContext _localctx = new SentforContext(_ctx, getState());
+	public final SentforContext sentfor(int indent) throws RecognitionException {
+		SentforContext _localctx = new SentforContext(_ctx, getState(), indent);
 		enterRule(_localctx, 24, RULE_sentfor);
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -1055,7 +1069,7 @@ public class scriptsParser extends Parser {
 			setState(189);
 			match(T__3);
 			setState(190);
-			((SentforContext)_localctx).blq = blq();
+			((SentforContext)_localctx).blq = blq(_localctx.indent + 1);
 
 			    ((SentforContext)_localctx).v =  (((SentforContext)_localctx).IDENTIFICADOR!=null?((SentforContext)_localctx).IDENTIFICADOR.getText():null) + ((SentforContext)_localctx).asig.v + ((SentforContext)_localctx).exp.v + " ) " + ((SentforContext)_localctx).blq.v;
 			    
@@ -2175,7 +2189,7 @@ public class scriptsParser extends Parser {
 		"\3\2\2\2*\u010e\3\2\2\2,\u0117\3\2\2\2.\u0123\3\2\2\2\60\u0125\3\2\2\2"+
 		"\62\u012f\3\2\2\2\64\u0140\3\2\2\2\66\u0148\3\2\2\28\u0152\3\2\2\2:;\5"+
 		"\6\4\2;<\5\4\3\2<=\b\2\1\2=\3\3\2\2\2>?\5\6\4\2?@\5\4\3\2@A\b\3\1\2AD"+
-		"\3\2\2\2BD\b\3\1\2C>\3\2\2\2CB\3\2\2\2D\5\3\2\2\2EF\7\3\2\2FG\5\20\t\2"+
+		"\3\2\2\2BD\3\2\2\2C>\3\2\2\2CB\3\2\2\2D\5\3\2\2\2EF\7\3\2\2FG\5\20\t\2"+
 		"GH\5\b\5\2HI\b\4\1\2IO\3\2\2\2JK\7\4\2\2KL\5\b\5\2LM\b\4\1\2MO\3\2\2\2"+
 		"NE\3\2\2\2NJ\3\2\2\2O\7\3\2\2\2PQ\7*\2\2QR\7\5\2\2RS\5\n\6\2ST\b\5\1\2"+
 		"T\t\3\2\2\2UV\5\f\7\2VW\7\6\2\2WX\5\22\n\2XY\b\6\1\2Y_\3\2\2\2Z[\7\6\2"+

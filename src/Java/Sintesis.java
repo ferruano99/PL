@@ -6,11 +6,11 @@ import java.util.List;
 public class Sintesis { //La clase principal para guardar todo
     //TODO: Hacer ArrayList<String> para meter las fucniones y procedimientos que vea el programa
     //en el main imprimirlo con el método resumen
-    private List<String> declaraciones; //Lista con todas las funciones
-    private List<String> nombresFuncion = new ArrayList<>();
+    private final List<String> declaraciones; //Lista con todas las funciones
+    private final List<String> nombresFuncion = new ArrayList<>();
 
-    private List<Sentencia> sentencias = new ArrayList<>();
-    private List<Cabecera> cabeceras = new ArrayList<>();
+    private final List<Sentencia> sentencias = new ArrayList<>();
+    private final List<Cabecera> cabeceras = new ArrayList<>();
 
     public Sintesis() {
         this.declaraciones = new ArrayList<>();
@@ -20,10 +20,10 @@ public class Sintesis { //La clase principal para guardar todo
         return new Restpart(frase, nombreFuncion);
     }
 
-    public String addSentencia(String sentencia) {
-        Sentencia sent = new Sentencia(sentencia);
+    public String addSentenciaIndentada(String sentencia,int indentado) {
+        Sentencia sent = new Sentencia(sentencia, indentado);
         sentencias.add(sent);
-        return sent.imprimirSentencia(sent.getSent());
+        return sent.imprimirSentencia(sent.getSent(),indentado);
     }
 
     public void imprimirCabecera(String titulo) {
@@ -71,8 +71,7 @@ public class Sintesis { //La clase principal para guardar todo
     }
 
     public ListParams listaPar(String conFormat, String sinFormat) {
-        ListParams lp = new ListParams(conFormat, sinFormat);
-        return lp;
+        return new ListParams(conFormat, sinFormat);
     }
 
     public void newDec(String declaracion, String nombreFuncion) {

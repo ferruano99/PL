@@ -35,13 +35,13 @@ restpart[String tipo] returns [Restpart v]: IDENTIFICADOR '(' restpart2[$tipo + 
     {
         $v = myinfo.restp(myinfo.identificadores($IDENTIFICADOR.text).formatIdentificadores() + "(" + $restpart2.v,$IDENTIFICADOR.text);
     };
-restpart2[String frase, String nombreCab] returns [String v]: listparam ')' blq
+restpart2[String frase, String nombreCab] returns [String v]: listparam ')' blq[1]
     {
     String cab = $listparam.v + " ) ";
     myinfo.addCabecera($frase + $listparam.v.getTextoPlano() + " ) ",$nombreCab);
     $v = $listparam.v.getFormateado() + ")" + $blq.v;
     }
-    | ')' blq {
+    | ')' blq[1] {
     myinfo.addCabecera($frase + ")",$nombreCab);
     $v = ")" + $blq.v;
     }
@@ -54,52 +54,52 @@ listparam2 returns [ListParams v]: ',' type IDENTIFICADOR {$v = myinfo.listaPar(
 
 type returns [Reservadas v]: 'entero' {$v = myinfo.palres("entero ");$v.formatPalres();}| 'real' {$v = myinfo.palres("real ");$v.formatPalres();}|'caracter' {$v = myinfo.palres("caracter ");$v.formatPalres();};
 
-blq returns [String v]: 'inicio' sentlist 'fin' {$v = "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + $sentlist.v + myinfo.palres("fin ").formatPalres();};
+blq[int indent] returns [String v]: 'inicio' sentlist[$indent] 'fin' {$v = "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + $sentlist.v + myinfo.palres("fin ").formatPalres();};
 
-sentlist returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;};
-sentlist2 returns [String v]: sent sentlist2 {$v = $sent.v + $sentlist2.v;} //USAR HEREDADOS????
+sentlist[int indent] returns [String v]: sent[$indent] sentlist2[$indent] {$v = $sent.v + $sentlist2.v;};
+sentlist2[int indent] returns [String v]: sent[$indent] sentlist2[$indent] {$v = $sent.v + $sentlist2.v;}
     | {$v = "";}
     ;
 
-sent returns [String v]: type lid ';'
-        {$v = myinfo.addSentencia($type.v.getPalHTML() + $lid.v + ";  ");}
+sent[int indent] returns [String v]: type lid ';'
+        {$v = myinfo.addSentencia($type.v.getPalHTML() + $lid.v + ";  ",$indent);}
     | IDENTIFICADOR sent2
         {
             String id = myinfo.identificadores($IDENTIFICADOR.text).formatIdentificadores();
-            $v =  myinfo.addSentencia(id + $sent2.v);
+            $v =  myinfo.addSentencia(id + $sent2.v,$indent);
         }
     | 'return' exp ';'
         {
             String r = myinfo.palres("return ").formatPalres();
-            $v = myinfo.addSentencia(r + $exp.v + " ; ");
+            $v = myinfo.addSentencia(r + $exp.v + " ; ",$indent);
         }
-    | 'bifurcacion' '(' lcond ')' 'entonces' blq 'sino' blq
+    | 'bifurcacion' '(' lcond ')' 'entonces' blq[$indent + 1] 'sino' blq[$indent + 1]
         {
         String bif = myinfo.palres("bifurcacion ").formatPalres();
         String entonces = myinfo.palres("entonces ").formatPalres();
         String sino = myinfo.palres("sino ").formatPalres();
-        $v = myinfo.addSentencia(bif + " ( " + $lcond.v + " ) " + entonces + $blq.v + sino + $blq.v);
+        $v = myinfo.addSentencia(bif + " ( " + $lcond.v + " ) " + entonces + $blq.v + sino + $blq.v,$indent);
         }
-    | 'buclepara' '(' IDENTIFICADOR asig exp ';' lcond ';' sentfor
+    | 'buclepara' '(' IDENTIFICADOR asig exp ';' lcond ';' sentfor[$indent]
         {
         String buclepara = myinfo.palres("buclepara ").formatPalres();
         String id = myinfo.identificadores($IDENTIFICADOR.text).formatIdentificadores();
         $v = myinfo.addSentencia(buclepara + " ( " + id + $asig.v + $exp.v + " ; " + $lcond.v + " ; " + $sentfor.v);
         }
-    | 'buclemientras' '(' lcond ')' blq
+    | 'buclemientras' '(' lcond ')' blq[$indent + 1]
         {
             String buclemientras = myinfo.palres("buclemientras ").formatPalres();
-            $v = myinfo.addSentencia(buclemientras + " ( " + $lcond.v + " ) " + $blq.v);
+            $v = myinfo.addSentencia(buclemientras + " ( " + $lcond.v + " ) " + $blq.v, $indent);
         }
-    | 'bucle' blq 'hasta' '(' lcond ')'
+    | 'bucle' blq[$indent + 1] 'hasta' '(' lcond ')'
         {
             String bucle = myinfo.palres("bucle ").formatPalres();
             String hasta = myinfo.palres("hasta ").formatPalres();
-            $v = myinfo.addSentencia(bucle + $blq.v + hasta + " ( " + $lcond.v + " ) ");
+            $v = myinfo.addSentencia(bucle + $blq.v + hasta + " ( " + $lcond.v + " ) ",$indent);
         }
-    | blq {$v = myinfo.addSentencia($blq.v);}
+    | blq[$indent + 1] {$v = myinfo.addSentencia($blq.v,$indent);}
     ;
-sentfor returns [String v] : IDENTIFICADOR asig exp ')' blq
+sentfor[int indent] returns [String v] : IDENTIFICADOR asig exp ')' blq[$indent + 1]
     {
     $v = $IDENTIFICADOR.text + $asig.v + $exp.v + " ) " + $blq.v;
     };
@@ -144,7 +144,7 @@ asig returns [String v]: '=' {$v = " = ";} | '+=' {$v = " += ";}| '-=' {$v = " -
 
 
 exp returns [String v]: funcion exp2 {$v = $funcion.v + $exp2.v;};
-exp2 returns [String v]: op funcion exp2 {$v = $op.v + $funcion.v + $exp2.v;}//USAR HERENCIA??
+exp2 returns [String v]: op funcion exp2 {$v = $op.v + $funcion.v + $exp2.v;}
     | {$v = "";}
     ;
 
@@ -154,7 +154,7 @@ funcion returns [String v]: IDENTIFICADOR funcion2 {$v = myinfo.identificadores(
     | CONSTREAL {$v = myinfo.constante($CONSTREAL.text).formatConstante();}
     | CONSTLIT {$v = myinfo.constante($CONSTLIT.text).formatConstante();}
     ;
-funcion2 returns [String v]: '(' lid ')' {$v = " ( " + $lid.v + " ) \n";} // Usar atributos heredados????
+funcion2 returns [String v]: '(' lid ')' {$v = " ( " + $lid.v + " ) \n";}
     | {$v = " ";}
     ;
 

@@ -1,28 +1,29 @@
 package Java;
 
 public class Sentencia {
-    private String sent;
-    private String nombreFuncion;
+    private final String sent;
+    private int indentado;
+
+    public Sentencia(String sent, int indentado) {
+        this.indentado = indentado;
+        this.sent = sent;
+    }
 
     public String getSent() {
         return sent;
     }
 
-    public String getNombreFuncion() {
-        return nombreFuncion;
+    public int getIndentado() {
+        return indentado;
     }
 
-    public void setNombreFuncion(String nombreFuncion) {
-        this.nombreFuncion = nombreFuncion;
+
+    public void setIndentado(int indentado) {
+        this.indentado = indentado;
     }
 
-    public Sentencia(String sent){
-        this.nombreFuncion = "";
-        this.sent = sent;
-    }
-
-    public String imprimirSentencia(String sentencia){
-        return "    <DIV style=\"text-indent: 0.5cm\">"+sentencia+"</DIV>\n"; //TODO
+    public String imprimirSentencia(String sentencia, int indent) {
+        return "    <DIV style=\"text-indent: " + (indent * 0.5) + "cm\">" + sentencia + "</DIV>\n"; //TODO
 
     }
 }
