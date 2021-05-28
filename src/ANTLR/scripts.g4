@@ -54,7 +54,10 @@ listparam2 returns [ListParams v]: ',' type IDENTIFICADOR {$v = myinfo.listaPar(
 
 type returns [Reservadas v]: 'entero' {$v = myinfo.palres("entero ");$v.formatPalres();}| 'real' {$v = myinfo.palres("real ");$v.formatPalres();}|'caracter' {$v = myinfo.palres("caracter ");$v.formatPalres();};
 
-blq[int indent] returns [String v]: 'inicio' sentlist[$indent] 'fin' {$v = "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + $sentlist.v + myinfo.palres("fin ").formatPalres();};
+blq[int indent] returns [String v]: 'inicio' sentlist[$indent] 'fin'
+{
+$v = "\r\n<BR/>\n<DIV style=\"text-indent:\"" + ($indent - 1)*0.5 + "\" cm>" + myinfo.palres("inicio ").formatPalres() + "</DIV><BR/>\r\n" + $sentlist.v +  "\n<DIV style=\"text-indent:\"" + ($indent - 1)*0.5 + "\" cm>" + myinfo.palres("fin ").formatPalres() + "</DIV>";
+};
 
 sentlist[int indent] returns [String v]: sent[$indent] sentlist2[$indent] {$v = $sent.v + $sentlist2.v;};
 sentlist2[int indent] returns [String v]: sent[$indent] sentlist2[$indent] {$v = $sent.v + $sentlist2.v;}

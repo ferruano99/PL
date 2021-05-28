@@ -658,7 +658,9 @@ public class scriptsParser extends Parser {
 			((BlqContext)_localctx).sentlist = sentlist(_localctx.indent);
 			setState(117);
 			match(T__9);
-			((BlqContext)_localctx).v =  "\r\n<BR/>" + myinfo.palres("inicio ").formatPalres() + "<BR/>\r\n" + ((BlqContext)_localctx).sentlist.v + myinfo.palres("fin ").formatPalres();
+
+			((BlqContext)_localctx).v =  "\r\n<BR/>\n<DIV style=\"text-indent:\"" + (_localctx.indent - 1)*0.5 + "\" cm>" + myinfo.palres("inicio ").formatPalres() + "</DIV><BR/>\r\n" + ((BlqContext)_localctx).sentlist.v +  "\n<DIV style=\"text-indent:\"" + (_localctx.indent - 1)*0.5 + "\" cm>" + myinfo.palres("fin ").formatPalres() + "</DIV>";
+
 			}
 		}
 		catch (RecognitionException re) {
